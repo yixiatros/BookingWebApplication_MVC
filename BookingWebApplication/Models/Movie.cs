@@ -26,7 +26,6 @@ namespace BookingWebApplication.Models
         [StringLength(45)]
         public string MovieType { get; set; }
 
-
         [Column("movie_summary")]
         [StringLength(45)]
         public string MovieSummary { get; set; }
@@ -35,9 +34,11 @@ namespace BookingWebApplication.Models
         [StringLength(45)]
         public string MovieDirector { get; set; }
 
-        [ForeignKey("content_admin_id")]
         public int ContentAdminId { get; set; }
+        [ForeignKey("ContentAdminId")]
+        [InverseProperty("Movies")]
+        public virtual ContentAdmin? ContentAdmin { get; set; } = null!;
 
-        public virtual ContentAdmin ContentAdmin { get; set; }
+        public virtual ICollection<Provoli>? Provoles { get; set; } = new List<Provoli>();
     }
 }

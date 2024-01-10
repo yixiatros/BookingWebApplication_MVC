@@ -1,31 +1,36 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookingWebApplication.Models
 {
     [Table("provoles")]
     public class Provoli
     {
-        [ForeignKey("movies_id")]
-        public int MoviesID { get; set; }
-
-        [ForeignKey("movies_name")]
+        [ForeignKey("MoviesId")]
+        [InverseProperty("Provoles")]
+        public int MoviesId { get; set; }
+        [ForeignKey("MoviesName")]
+        [InverseProperty("Provoles")]
         [StringLength(45)]
-        public string MovieName { get; set; }
+        public string MoviesName { get; set; } = null!;
+        [InverseProperty("Provoles")]
+        public virtual Movie? Movie { get; set; } = null!;
 
-        public virtual ICollection<Movie> Movies { get; set; }
 
-        [ForeignKey("cinemas_id")]
-        public int CinemasID { get; set; }
 
-        public virtual ICollection<Cinema> Cinemas { get; set; }
+        public int? CinemasID { get; set; }
+        [ForeignKey("CinemasID")]
+        [InverseProperty("Provoles")]
+        public virtual Cinema? Cinema { get; set; } = null!;
 
-        [Column("id")]
+        [Key][Column("id")]
         public int Id { get; set; }
 
-        [ForeignKey("content_admin_id")]
         public int ContentAdminId { get; set; }
+        [ForeignKey("ContentAdminId")]
+        [InverseProperty("Provoles")]
+        public virtual ContentAdmin? ContentAdmin { get; set; } = null!;
 
-        public virtual ICollection<ContentAdmin> ContentAdmins { get; set; }
+        //public virtual ICollection<Reservation> Reservations { get; set; }
     }
 }

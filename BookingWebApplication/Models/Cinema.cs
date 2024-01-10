@@ -21,5 +21,7 @@ namespace BookingWebApplication.Models
         [Column("3D")]
         [StringLength(45)]
         public string I3D { get; set; }
+
+        public virtual ICollection<Provoli> Provoles { get; set; } = null!;
     }
 }

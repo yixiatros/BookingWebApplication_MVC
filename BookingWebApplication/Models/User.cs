@@ -23,6 +23,8 @@ namespace BookingWebApplication.Models
         public string Password { get; set; }
 
         [Column("create_time")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreateTime { get; set; }
 
         [Column("salt")]
@@ -32,5 +34,10 @@ namespace BookingWebApplication.Models
         [Column("role")]
         [StringLength(45)]
         public string Role { get; set; }
+
+        [InverseProperty("User")]
+        public virtual Admin? Admin { get; set; } = null!;
+        public virtual ContentAdmin? ContentAdmin { get; set; } = null!;
+        public virtual Customer? Customer { get; set; } = null!;
     }
 }
