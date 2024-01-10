@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingWebApplication.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240110123146_AddBasicModelsTodb")]
-    partial class AddBasicModelsTodb
+    [Migration("20240110162915_AddModelsTodb")]
+    partial class AddModelsTodb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,33 +176,68 @@ namespace BookingWebApplication.Migrations
 
             modelBuilder.Entity("BookingWebApplication.Models.Provoli", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MoviesId")
                         .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnName("MOVIES_ID");
+
+                    b.Property<string>("MoviesName")
+                        .HasMaxLength(45)
+                        .HasColumnType("nchar(45)")
+                        .HasColumnName("MOVIES_NAME");
 
                     b.Property<int?>("CinemasID")
                         .HasColumnType("int");
 
                     b.Property<int>("ContentAdminId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("CONTENT_ADMIN_ID");
 
-                    b.Property<int>("MoviesId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
 
-                    b.Property<string>("MoviesName")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("nchar(45)");
-
-                    b.HasKey("Id");
+                    b.HasKey("MoviesId", "MoviesName", "CinemasID", "ContentAdminId");
 
                     b.HasIndex("CinemasID");
 
                     b.HasIndex("ContentAdminId");
 
-                    b.HasIndex("MoviesId", "MoviesName");
-
                     b.ToTable("provoles");
+                });
+
+            modelBuilder.Entity("BookingWebApplication.Models.Reservation", b =>
+                {
+                    b.Property<int>("ProvolesMoviesId")
+                        .HasColumnType("int")
+                        .HasColumnName("PROVOLES_MOVIES_ID");
+
+                    b.Property<string>("ProvolesMoviesName")
+                        .HasMaxLength(45)
+                        .HasColumnType("nchar(45)")
+                        .HasColumnName("PROVOLES_MOVIES_NAME");
+
+                    b.Property<int>("ProvolesCinemasId")
+                        .HasColumnType("int")
+                        .HasColumnName("PROVOLES_CINEMAS_ID");
+
+                    b.Property<int>("CustomersId")
+                        .HasColumnType("int")
+                        .HasColumnName("CUSTOMERS_ID");
+
+                    b.Property<int>("NumberOfSeats")
+                        .HasColumnType("int")
+                        .HasColumnName("NUMBER_OF_SEATS");
+
+                    b.Property<int>("ProvolesContentAdminId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesCinemasId", "CustomersId");
+
+                    b.HasIndex("CustomersId");
+
+                    b.HasIndex("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesCinemasId", "ProvolesContentAdminId");
+
+                    b.ToTable("reservations");
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.User", b =>
@@ -213,17 +248,17 @@ namespace BookingWebApplication.Migrations
                         .HasColumnName("user_name")
                         .IsFixedLength();
 
-                    b.Property<int?>("AdminUserName")
+                    b.Property<int>("AdminUserName")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ContentAdminUserName")
+                    b.Property<int>("ContentAdminUserName")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime2")
                         .HasColumnName("create_time");
 
-                    b.Property<int?>("CustomerUserName")
+                    b.Property<int>("CustomerUserName")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -257,16 +292,13 @@ namespace BookingWebApplication.Migrations
                     b.HasKey("UserName");
 
                     b.HasIndex("AdminUserName")
-                        .IsUnique()
-                        .HasFilter("[AdminUserName] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("ContentAdminUserName")
-                        .IsUnique()
-                        .HasFilter("[ContentAdminUserName] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("CustomerUserName")
-                        .IsUnique()
-                        .HasFilter("[CustomerUserName] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("users");
                 });
@@ -286,7 +318,9 @@ namespace BookingWebApplication.Migrations
                 {
                     b.HasOne("BookingWebApplication.Models.Cinema", "Cinema")
                         .WithMany("Provoles")
-                        .HasForeignKey("CinemasID");
+                        .HasForeignKey("CinemasID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BookingWebApplication.Models.ContentAdmin", "ContentAdmin")
                         .WithMany("Provoles")
@@ -307,22 +341,47 @@ namespace BookingWebApplication.Migrations
                     b.Navigation("Movie");
                 });
 
+            modelBuilder.Entity("BookingWebApplication.Models.Reservation", b =>
+                {
+                    b.HasOne("BookingWebApplication.Models.Customer", "Customer")
+                        .WithMany("Reservations")
+                        .HasForeignKey("CustomersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BookingWebApplication.Models.Provoli", "Provoli")
+                        .WithMany("Reservations")
+                        .HasForeignKey("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesCinemasId", "ProvolesContentAdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Provoli");
+                });
+
             modelBuilder.Entity("BookingWebApplication.Models.User", b =>
                 {
                     b.HasOne("BookingWebApplication.Models.Admin", "Admin")
                         .WithOne("User")
                         .HasForeignKey("BookingWebApplication.Models.User", "AdminUserName")
-                        .HasPrincipalKey("BookingWebApplication.Models.Admin", "UserName");
+                        .HasPrincipalKey("BookingWebApplication.Models.Admin", "UserName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BookingWebApplication.Models.ContentAdmin", "ContentAdmin")
                         .WithOne("User")
                         .HasForeignKey("BookingWebApplication.Models.User", "ContentAdminUserName")
-                        .HasPrincipalKey("BookingWebApplication.Models.ContentAdmin", "UserName");
+                        .HasPrincipalKey("BookingWebApplication.Models.ContentAdmin", "UserName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BookingWebApplication.Models.Customer", "Customer")
                         .WithOne("User")
                         .HasForeignKey("BookingWebApplication.Models.User", "CustomerUserName")
-                        .HasPrincipalKey("BookingWebApplication.Models.Customer", "UserName");
+                        .HasPrincipalKey("BookingWebApplication.Models.Customer", "UserName")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Admin");
 
@@ -354,6 +413,8 @@ namespace BookingWebApplication.Migrations
 
             modelBuilder.Entity("BookingWebApplication.Models.Customer", b =>
                 {
+                    b.Navigation("Reservations");
+
                     b.Navigation("User")
                         .IsRequired();
                 });
@@ -361,6 +422,11 @@ namespace BookingWebApplication.Migrations
             modelBuilder.Entity("BookingWebApplication.Models.Movie", b =>
                 {
                     b.Navigation("Provoles");
+                });
+
+            modelBuilder.Entity("BookingWebApplication.Models.Provoli", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

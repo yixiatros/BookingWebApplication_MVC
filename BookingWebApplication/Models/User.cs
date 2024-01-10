@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
 
@@ -35,9 +36,14 @@ namespace BookingWebApplication.Models
         [StringLength(45)]
         public string Role { get; set; }
 
-        [InverseProperty("User")]
-        public virtual Admin? Admin { get; set; } = null!;
-        public virtual ContentAdmin? ContentAdmin { get; set; } = null!;
-        public virtual Customer? Customer { get; set; } = null!;
+        [NotMapped]
+        [ScaffoldColumn(false)]
+        public virtual Admin Admin { get; set; }
+        [NotMapped]
+        [ScaffoldColumn(false)]
+        public virtual ContentAdmin ContentAdmin { get; set; }
+        [NotMapped]
+        [ScaffoldColumn(false)]
+        public virtual Customer Customer { get; set; }
     }
 }

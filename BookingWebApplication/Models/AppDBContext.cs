@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace BookingWebApplication.Models;
 
@@ -21,7 +22,7 @@ public partial class AppDBContext : DbContext
     public DbSet<Movie> Movies { get; set; }
     public DbSet<Cinema> Cinemas { get; set; }
     public DbSet<Provoli> Provoles { get; set; }
-    //public DbSet<Reservation> Reservations { get; set; }
+    public DbSet<Reservation> Reservations { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -37,28 +38,30 @@ public partial class AppDBContext : DbContext
             entity.Property(e => e.Password).IsFixedLength();
             entity.Property(e => e.Salt).IsFixedLength();
             entity.Property(e => e.Role).IsFixedLength();
-
-            entity.HasOne(e => e.Admin).WithOne(e => e.User).HasPrincipalKey<Admin>(e => e.UserName);
-            entity.HasOne(e => e.ContentAdmin).WithOne(e => e.User).HasPrincipalKey<ContentAdmin>(e => e.UserName);
-            entity.HasOne(e => e.Customer).WithOne(e => e.User).HasPrincipalKey<Customer>(e => e.UserName);
         });
 
         modelBuilder.Entity<Admin>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Name).IsFixedLength();
+
+            entity.HasOne(e => e.User).WithOne(e => e.Admin).HasPrincipalKey<Admin>(e => e.UserName);
         });
 
         modelBuilder.Entity<ContentAdmin>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Name).IsFixedLength();
+
+            entity.HasOne(e => e.User).WithOne(e => e.ContentAdmin).HasPrincipalKey<ContentAdmin>(e => e.UserName);
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
             entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Name).IsFixedLength();
+
+            entity.HasOne(e => e.User).WithOne(e => e.Customer).HasPrincipalKey<Customer>(e => e.UserName);
         });
 
         modelBuilder.Entity<Movie>(entity =>
@@ -97,13 +100,17 @@ public partial class AppDBContext : DbContext
             .HasForeignKey(e => new { e.MoviesId, e.MoviesName })
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasKey(e => new { e.MoviesId, e.MoviesName, e.CinemasID, e.ContentAdminId });
         });
 
-        /*modelBuilder.Entity<Reservation>(entity =>
+        modelBuilder.Entity<Reservation>(entity =>
         {
-            entity.HasOne(e => e.Provoli).WithMany(e => e.Reservations);
-            entity.HasOne(e => e.Customer).WithMany(e => e.Reservations);
-        });*/
+            entity.HasOne(e => e.Provoli).WithMany(e => e.Reservations).HasForeignKey(e => new {e.ProvolesMoviesId, e.ProvolesMoviesName, e.ProvolesCinemasId, e.ProvolesContentAdminId});
+            entity.HasOne(e => e.Customer).WithMany(e => e.Reservations).HasForeignKey(e => e.CustomersId);
+
+            entity.HasKey(e => new { e.ProvolesMoviesId, e.ProvolesMoviesName, e.ProvolesCinemasId, e.CustomersId });
+        });
 
         OnModelCreatingPartial(modelBuilder);
     }

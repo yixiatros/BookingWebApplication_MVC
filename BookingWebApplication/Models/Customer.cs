@@ -18,6 +18,6 @@ namespace BookingWebApplication.Models
         [ForeignKey("UserName")]
         public virtual User User { get; set; } = null!;
 
-        //public virtual ICollection<Reservation> Reservations {  get; set; }
+        public virtual ICollection<Reservation> Reservations {  get; set; }
     }
 }
