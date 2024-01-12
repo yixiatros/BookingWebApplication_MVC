@@ -116,7 +116,7 @@ public partial class AppDBContext : DbContext
         });
 
 
-        // Testing Data
+        // TODO Testing Data DELETE AFTER TESTING
         modelBuilder.Entity<User>().HasData(
             new User { UserName = "al", Email = "al@testmail.com", Password = "123456", CreateTime = DateTime.Now, Role = "ContentAdmin", Salt = "123" }
             );
@@ -156,7 +156,19 @@ public partial class AppDBContext : DbContext
                 ContentAdminId = 1
             }
             );
-        // Testing Data
+
+        modelBuilder.Entity<Cinema>().HasData(
+            new Cinema { Id = 1, Name = "Village Cinemas Thessaloniki", Seats = 300, I3D = "Yes" },
+            new Cinema { Id = 2, Name = "Options Cinemas Glyfada", Seats = 200, I3D = "No" },
+            new Cinema { Id = 3, Name = "Άστορ", Seats = 150, I3D = "No" }
+            );
+
+        modelBuilder.Entity<Provoli>().HasData(
+            new Provoli { MoviesId = 1, MoviesName = "The Shawshank Redemption", CinemasID = 1, Id = 1, ContentAdminId = 1 },
+            new Provoli { MoviesId = 1, MoviesName = "The Shawshank Redemption", CinemasID = 2, Id = 2, ContentAdminId = 1 },
+            new Provoli { MoviesId = 2, MoviesName = "The Godfather", CinemasID = 3, Id = 3, ContentAdminId = 1 }
+            );
+        // TODO Testing Data DELETE AFTER TESTING
 
 
         OnModelCreatingPartial(modelBuilder);

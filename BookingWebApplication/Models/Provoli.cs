@@ -31,12 +31,13 @@ namespace BookingWebApplication.Models
         [Column("ID")]
         public int Id { get; set; }
 
+        [Key]
         [Column("CONTENT_ADMIN_ID")]
         public int ContentAdminId { get; set; }
         [ForeignKey("ContentAdminId")]
         [InverseProperty("Provoles")]
         public virtual ContentAdmin? ContentAdmin { get; set; } = null!;
 
-        public virtual ICollection<Reservation> Reservations { get; set; }
+        public virtual ICollection<Reservation>? Reservations { get; set; }
     }
 }

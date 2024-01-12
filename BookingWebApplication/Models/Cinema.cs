@@ -15,13 +15,12 @@ namespace BookingWebApplication.Models
         public string Name { get; set; }
 
         [Column("seats")]
-        [StringLength(45)]
-        public string Seats { get; set; }
+        public int Seats { get; set; }
 
         [Column("3D")]
         [StringLength(45)]
         public string I3D { get; set; }
 
-        public virtual ICollection<Provoli> Provoles { get; set; } = null!;
+        public virtual ICollection<Provoli>? Provoles { get; set; } = null!;
     }
 }

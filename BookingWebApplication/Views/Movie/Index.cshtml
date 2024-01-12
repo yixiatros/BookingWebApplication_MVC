@@ -9,14 +9,14 @@
 
 <div class="centered">
     <section class="cards">
-        @foreach (var obj in Model)
+        @foreach (var item in Model@* .OrderBy(e => e.MovieName) *@)
         {
-            <a href="#">
+            <a asp-action="Details" asp-route-id="@item.MovieId">
                 <div class="card">
-                        <div class="title">@obj.MovieName</div>
-                        <div class="text">@obj.MovieSummary</div>
-                        <div class="type">@obj.MovieType <i class="fas fa-film"></i></div>
-                    <div class="length">@string.Format("{0}h {1}m", obj.MovieLength / 60, obj.MovieLength % 60) <i class="fas fa-clock"></i></div>
+                        <div class="title">@item.MovieName</div>
+                        <div class="text">@item.MovieSummary</div>
+                        <div class="type">@item.MovieType <i class="fas fa-film"></i></div>
+                    <div class="length">@string.Format("{0}h {1}m", item.MovieLength / 60, item.MovieLength % 60) <i class="fas fa-clock"></i></div>
                 </div>
             </a>
         }

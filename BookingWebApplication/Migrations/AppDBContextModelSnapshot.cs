@@ -67,16 +67,37 @@ namespace BookingWebApplication.Migrations
                         .HasColumnName("name")
                         .IsFixedLength();
 
-                    b.Property<string>("Seats")
-                        .IsRequired()
-                        .HasMaxLength(45)
-                        .HasColumnType("nchar(45)")
+                    b.Property<int>("Seats")
+                        .HasColumnType("int")
                         .HasColumnName("seats")
                         .IsFixedLength();
 
                     b.HasKey("Id");
 
                     b.ToTable("cinemas");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            I3D = "Yes",
+                            Name = "Village Cinemas Thessaloniki",
+                            Seats = 300
+                        },
+                        new
+                        {
+                            Id = 2,
+                            I3D = "No",
+                            Name = "Options Cinemas Glyfada",
+                            Seats = 200
+                        },
+                        new
+                        {
+                            Id = 3,
+                            I3D = "No",
+                            Name = "Άστορ",
+                            Seats = 150
+                        });
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.ContentAdmin", b =>
@@ -249,6 +270,32 @@ namespace BookingWebApplication.Migrations
                     b.HasIndex("ContentAdminId");
 
                     b.ToTable("provoles");
+
+                    b.HasData(
+                        new
+                        {
+                            MoviesId = 1,
+                            MoviesName = "The Shawshank Redemption",
+                            CinemasID = 1,
+                            ContentAdminId = 1,
+                            Id = 1
+                        },
+                        new
+                        {
+                            MoviesId = 1,
+                            MoviesName = "The Shawshank Redemption",
+                            CinemasID = 2,
+                            ContentAdminId = 1,
+                            Id = 2
+                        },
+                        new
+                        {
+                            MoviesId = 2,
+                            MoviesName = "The Godfather",
+                            CinemasID = 3,
+                            ContentAdminId = 1,
+                            Id = 3
+                        });
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.Reservation", b =>
@@ -334,7 +381,7 @@ namespace BookingWebApplication.Migrations
                         new
                         {
                             UserName = "al",
-                            CreateTime = new DateTime(2024, 1, 12, 8, 52, 43, 452, DateTimeKind.Local).AddTicks(8159),
+                            CreateTime = new DateTime(2024, 1, 12, 11, 13, 4, 584, DateTimeKind.Local).AddTicks(6454),
                             Email = "al@testmail.com",
                             Password = "123456",
                             Role = "ContentAdmin",

@@ -1,0 +1,62 @@
+﻿@model Tuple<Movie, List<Cinema>>
+
+<head>
+    <link rel="stylesheet" href="~/css/movies.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+</head>
+
+<h1>@Model.Item1.MovieName</h1>
+
+<br>
+
+<div class="info" style="margin-inline-start: 2em">
+    <h3>Information</h3>
+    <div class="inner-info" style="margin-inline-start: 2em">
+        <div><i class="fas fa-smile"></i>&nbsp;<span>Director:</span>&nbsp;&nbsp;<span>@Model.Item1.MovieDirector</span></div>
+        <div><i class="fas fa-film"></i>&nbsp;<span>Genre:</span>&nbsp;&nbsp;<span>@Model.Item1.MovieType</span></div>
+        <div><i class="fas fa-clock"></i>&nbsp;<span>Duration:</span>&nbsp;&nbsp;<span>@string.Format("{0}h {1}m", @Model.Item1.MovieLength / 60, @Model.Item1.MovieLength % 60)</span></div>
+        <div><i class="fas fa-file-signature"></i>&nbsp;<span>Context:</span>&nbsp;&nbsp;<span>@Model.Item1.MovieContent</span></div>
+    </div>
+</div>
+
+<br>
+
+<div class="summary" style="margin-inline-start: 2em">
+    <h3>Summary</h3>
+    <div class="inner-summary" style="margin-inline-start: 2em">
+        <p>@Model.Item1.MovieSummary</p>
+    </div>
+</div>
+
+<br>
+
+<div class="cinemas" style="margin-inline-start: 2em">
+    <h3>Projection / Tickets</h3>
+    <div class="inner-cinema" style="margin-inline-start: 2em">
+        <table>
+            <tr>
+                <th>Cinema</th>
+                <th>Number Of Seats</th>
+            </tr>
+            @foreach (var item in Model.Item2)
+            {
+                <tr>
+                    <td>
+                        @* <a asp-controller="Provoli" asp-action="Index"
+                        asp-route-id="@item.Id"
+                        asp-route-id2="@Model.Item1.MovieId"
+                        asp-route-id3="@Model.Item1.MovieName"
+                        asp-route-id4="@Model.Item1.ContentAdmin"> *@
+                        <a asp-controller="Provoli" asp-action="Index"
+                           asp-route-cinemasId="@item.Id"
+                           asp-route-moviesId="@Model.Item1.MovieId"
+                           asp-route-id="@Model.Item1.ContentAdminId">
+                            @item.Name
+                        </a>
+                    </td>
+                    <td>@item.Seats</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

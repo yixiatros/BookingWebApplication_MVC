@@ -108,3 +108,19 @@ a {
 .card:hover {
     transform: scale(1.1);
 }
+
+/* Details */
+table tr {
+    border: 2px solid var(--primary-color);
+    font-size: 1.05em;
+}
+
+table th {
+    font-size: 1.2em;
+}
+
+table td {
+    padding-inline-end: 10em;
+}
+
+/* Details */

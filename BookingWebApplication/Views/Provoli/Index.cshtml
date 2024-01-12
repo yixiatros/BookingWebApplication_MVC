@@ -1,0 +1,55 @@
+﻿@model Tuple<BookingWebApplication.Models.Provoli, BookingWebApplication.Models.Cinema>
+@* @model BookingWebApplication.Models.Provoli *@
+
+<head>
+    <link rel="stylesheet" href="~/css/provoles.css" asp-append-version="true" />
+    <script src="~/js/provoles.js" type="text/javascript" asp-append-version="true"></script>
+</head>
+
+<h1>Projection</h1>
+
+<div class="calendar">
+    <table class="calendar-table">
+        <tr>
+            <th><label for="radio-sunday">Sunday</label></th>
+            <th><label for="radio-monday">Monday</label></th>
+            <th><label for="radio-tuesday">Tuesday</label></th>
+            <th><label for="radio-wednesday">Wednesday</label></th>
+            <th><label for="radio-thursday">Thursday</label></th>
+            <th><label for="radio-friday">Friday</label></th>
+            <th><label for="radio-saturday">Saturday</label></th>
+        </tr>
+        <tr>
+            <td><input class="calendar-radio" type="radio" name="radio" id="radio-sunday"></td>
+            <td><input class="calendar-radio" type="radio" name="radio" id="radio-monday"></td>
+            <td><input class="calendar-radio" type="radio" name="radio" id="radio-tuesday"></td>
+            <td><input class="calendar-radio" type="radio" name="radio" id="radio-wednesday"></td>
+            <td><input class="calendar-radio" type="radio" name="radio" id="radio-thursday"></td>
+            <td><input class="calendar-radio" type="radio" name="radio" id="radio-friday"></td>
+            <td><input class="calendar-radio" type="radio" name="radio" id="radio-saturday"></td>
+        </tr>
+    </table>
+</div>
+
+<h1>Tickets</h1>
+
+<div class="seats">
+    @for (int i = 1; i <= Model.Item2.Seats; i++)
+    {
+        <div class="seat seat-available" id="@i" onclick="onSeatClick(@i)"><span class="seat-text">@i</span></div>
+    }
+</div>
+
+<div class="screen-container">
+    <div class="screen">
+        <div class="screen-inner">Screen</div>
+    </div>
+</div>
+
+<br>
+<br>
+
+<form class="reserve-form" id="reserve-form">
+    <input class="selected-seats selected-seats-text" type="text" id="selected-seats-text" disabled />
+    <button class="selected-seats selected-seats-button" id="selected-seats-button" onclick="onButtonSubmit()" type="button">Reserve</button>
+</form>

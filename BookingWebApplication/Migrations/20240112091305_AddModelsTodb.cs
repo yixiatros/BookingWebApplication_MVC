@@ -19,7 +19,7 @@ namespace BookingWebApplication.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false),
                     name = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
-                    seats = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
+                    seats = table.Column<int>(type: "int", fixedLength: true, nullable: false),
                     _3D = table.Column<string>(name: "3D", type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false)
                 },
                 constraints: table =>
@@ -186,9 +186,19 @@ namespace BookingWebApplication.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "cinemas",
+                columns: new[] { "id", "3D", "name", "seats" },
+                values: new object[,]
+                {
+                    { 1, "Yes", "Village Cinemas Thessaloniki", 300 },
+                    { 2, "No", "Options Cinemas Glyfada", 200 },
+                    { 3, "No", "Άστορ", 150 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "users",
                 columns: new[] { "user_name", "create_time", "email", "password", "role", "salt" },
-                values: new object[] { "al", new DateTime(2024, 1, 12, 8, 52, 43, 452, DateTimeKind.Local).AddTicks(8159), "al@testmail.com", "123456", "ContentAdmin", "123" });
+                values: new object[] { "al", new DateTime(2024, 1, 12, 11, 13, 4, 584, DateTimeKind.Local).AddTicks(6454), "al@testmail.com", "123456", "ContentAdmin", "123" });
 
             migrationBuilder.InsertData(
                 table: "content_admins",
@@ -203,6 +213,16 @@ namespace BookingWebApplication.Migrations
                     { 1, "The Shawshank Redemption", 1, "Content", "Frank Darabont", 142, "Over the course of several years, two convicts form a friendship, seeking consolation and, eventually, redemption through basic compassion.", "Drama" },
                     { 2, "The Godfather", 1, "Content", "Francis Ford Coppola", 175, "Don Vito Corleone, head of a mafia family, decides to hand over his empire to his youngest son Michael. However, his decision unintentionally puts the lives of his loved ones in grave danger.", "Crime, Drama" },
                     { 3, "The Dark Knight", 1, "Content", "Christopher Nolan", 152, "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.", "Action, Crime, Drama" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "provoles",
+                columns: new[] { "CinemasID", "CONTENT_ADMIN_ID", "MOVIES_ID", "MOVIES_NAME", "ID" },
+                values: new object[,]
+                {
+                    { 1, 1, 1, "The Shawshank Redemption", 1 },
+                    { 2, 1, 1, "The Shawshank Redemption", 2 },
+                    { 3, 1, 2, "The Godfather", 3 }
                 });
 
             migrationBuilder.CreateIndex(
