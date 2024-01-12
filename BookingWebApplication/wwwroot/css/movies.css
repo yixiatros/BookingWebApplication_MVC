@@ -1,0 +1,110 @@
+:root {
+    --primary-color: #282828;
+    --secondary-color: #121212;
+    --accent-color: #575757;
+    --light-primary-color: #717171;
+    --light-secondary-color: #8b8b8b;
+
+    --text-color: #E1E1E1;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: var(--light-primary-color);
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.card {
+    flex: 0 1 calc(25% - 1em);
+    position: relative;
+    overflow: hidden;
+    width: 320px;
+    height: 450px;
+    margin: 40px auto;
+    background: var(--primary-color);
+    border: 5px solid var(--secondary-color);
+    border-radius: 3px;
+    box-shadow: 0 0 10px black;
+    transition: all .2s ease-in-out;
+}
+
+.card .title {
+    height: 22%;
+    width: 100%;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: #FFFC;
+    padding: 15px 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    box-shadow: 0 -95px 28px -25px var(--secondary-color) inset;
+}
+
+.card .text {
+    position: absolute;
+    bottom: 95px;
+    height: 120px;
+    padding: 15px 10px;
+    text-align: center;
+    font-size: 15px;
+    color: #fffc;
+    transform: rotate(90deg);
+    transform-origin: 0 100px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.card .type {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    padding: 3px 10px;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    color: #fffc;
+    transform: translate(-200px, 0);
+    transition: all 0.5s ease;
+}
+
+.card .length {
+    position: absolute;
+    left: 18px;
+    top: 40px;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    color: #fffc;
+    transform: translate(-160px, 0);
+    transition: all 0.5s ease 0.15s;
+}
+
+.card:hover .length, .card:hover .type {
+    transform: scale(1.1);
+}
+
+.card:hover .text {
+    opacity: 0.8;
+    transform: rotate(0deg);
+}
+
+.card:hover {
+    transform: scale(1.1);
+}

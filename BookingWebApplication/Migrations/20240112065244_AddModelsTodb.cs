@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace BookingWebApplication.Migrations
 {
     /// <inheritdoc />
@@ -11,20 +13,6 @@ namespace BookingWebApplication.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "admins",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false),
-                    name = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
-                    UserName = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_admins", x => x.id);
-                    table.UniqueConstraint("AK_admins_UserName", x => x.UserName);
-                });
-
             migrationBuilder.CreateTable(
                 name: "cinemas",
                 columns: table => new
@@ -40,17 +28,57 @@ namespace BookingWebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    user_name = table.Column<string>(type: "nchar(32)", fixedLength: true, maxLength: 32, nullable: false),
+                    email = table.Column<string>(type: "nchar(35)", fixedLength: true, maxLength: 35, nullable: false),
+                    password = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
+                    create_time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    salt = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
+                    role = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.user_name);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "admins",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false),
+                    name = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
+                    UserName = table.Column<string>(type: "nchar(32)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_admins", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_admins_users_UserName",
+                        column: x => x.UserName,
+                        principalTable: "users",
+                        principalColumn: "user_name",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "content_admins",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false),
                     name = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
-                    UserName = table.Column<int>(type: "int", nullable: false)
+                    UserName = table.Column<string>(type: "nchar(32)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_content_admins", x => x.id);
-                    table.UniqueConstraint("AK_content_admins_UserName", x => x.UserName);
+                    table.ForeignKey(
+                        name: "FK_content_admins_users_UserName",
+                        column: x => x.UserName,
+                        principalTable: "users",
+                        principalColumn: "user_name",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -59,12 +87,17 @@ namespace BookingWebApplication.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false),
                     name = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
-                    UserName = table.Column<int>(type: "int", nullable: false)
+                    UserName = table.Column<string>(type: "nchar(32)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_customers", x => x.id);
-                    table.UniqueConstraint("AK_customers_UserName", x => x.UserName);
+                    table.ForeignKey(
+                        name: "FK_customers_users_UserName",
+                        column: x => x.UserName,
+                        principalTable: "users",
+                        principalColumn: "user_name",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,11 +106,11 @@ namespace BookingWebApplication.Migrations
                 {
                     movie_id = table.Column<int>(type: "int", nullable: false),
                     movie_name = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
-                    movie_description = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
+                    movie_content = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: true),
                     movie_length = table.Column<int>(type: "int", nullable: false),
-                    movie_type = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
-                    movie_summary = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
-                    movie_director = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
+                    movie_type = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: true),
+                    movie_summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    movie_director = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: true),
                     ContentAdminId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -88,43 +121,6 @@ namespace BookingWebApplication.Migrations
                         column: x => x.ContentAdminId,
                         principalTable: "content_admins",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "users",
-                columns: table => new
-                {
-                    user_name = table.Column<string>(type: "nchar(32)", fixedLength: true, maxLength: 32, nullable: false),
-                    email = table.Column<string>(type: "nchar(35)", fixedLength: true, maxLength: 35, nullable: false),
-                    password = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
-                    create_time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    salt = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
-                    role = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
-                    AdminUserName = table.Column<int>(type: "int", nullable: false),
-                    ContentAdminUserName = table.Column<int>(type: "int", nullable: false),
-                    CustomerUserName = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_users", x => x.user_name);
-                    table.ForeignKey(
-                        name: "FK_users_admins_AdminUserName",
-                        column: x => x.AdminUserName,
-                        principalTable: "admins",
-                        principalColumn: "UserName",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_users_content_admins_ContentAdminUserName",
-                        column: x => x.ContentAdminUserName,
-                        principalTable: "content_admins",
-                        principalColumn: "UserName",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_users_customers_CustomerUserName",
-                        column: x => x.CustomerUserName,
-                        principalTable: "customers",
-                        principalColumn: "UserName",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -186,8 +182,46 @@ namespace BookingWebApplication.Migrations
                         columns: x => new { x.PROVOLES_MOVIES_ID, x.PROVOLES_MOVIES_NAME, x.PROVOLES_CINEMAS_ID, x.ProvolesContentAdminId },
                         principalTable: "provoles",
                         principalColumns: new[] { "MOVIES_ID", "MOVIES_NAME", "CinemasID", "CONTENT_ADMIN_ID" },
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.InsertData(
+                table: "users",
+                columns: new[] { "user_name", "create_time", "email", "password", "role", "salt" },
+                values: new object[] { "al", new DateTime(2024, 1, 12, 8, 52, 43, 452, DateTimeKind.Local).AddTicks(8159), "al@testmail.com", "123456", "ContentAdmin", "123" });
+
+            migrationBuilder.InsertData(
+                table: "content_admins",
+                columns: new[] { "id", "name", "UserName" },
+                values: new object[] { 1, "alex", "al" });
+
+            migrationBuilder.InsertData(
+                table: "movies",
+                columns: new[] { "movie_id", "movie_name", "ContentAdminId", "movie_content", "movie_director", "movie_length", "movie_summary", "movie_type" },
+                values: new object[,]
+                {
+                    { 1, "The Shawshank Redemption", 1, "Content", "Frank Darabont", 142, "Over the course of several years, two convicts form a friendship, seeking consolation and, eventually, redemption through basic compassion.", "Drama" },
+                    { 2, "The Godfather", 1, "Content", "Francis Ford Coppola", 175, "Don Vito Corleone, head of a mafia family, decides to hand over his empire to his youngest son Michael. However, his decision unintentionally puts the lives of his loved ones in grave danger.", "Crime, Drama" },
+                    { 3, "The Dark Knight", 1, "Content", "Christopher Nolan", 152, "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.", "Action, Crime, Drama" }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_admins_UserName",
+                table: "admins",
+                column: "UserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_content_admins_UserName",
+                table: "content_admins",
+                column: "UserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_customers_UserName",
+                table: "customers",
+                column: "UserName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_movies_ContentAdminId",
@@ -213,43 +247,22 @@ namespace BookingWebApplication.Migrations
                 name: "IX_reservations_PROVOLES_MOVIES_ID_PROVOLES_MOVIES_NAME_PROVOLES_CINEMAS_ID_ProvolesContentAdminId",
                 table: "reservations",
                 columns: new[] { "PROVOLES_MOVIES_ID", "PROVOLES_MOVIES_NAME", "PROVOLES_CINEMAS_ID", "ProvolesContentAdminId" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_users_AdminUserName",
-                table: "users",
-                column: "AdminUserName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_users_ContentAdminUserName",
-                table: "users",
-                column: "ContentAdminUserName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_users_CustomerUserName",
-                table: "users",
-                column: "CustomerUserName",
-                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "reservations");
-
-            migrationBuilder.DropTable(
-                name: "users");
-
-            migrationBuilder.DropTable(
-                name: "provoles");
-
-            migrationBuilder.DropTable(
                 name: "admins");
 
             migrationBuilder.DropTable(
+                name: "reservations");
+
+            migrationBuilder.DropTable(
                 name: "customers");
+
+            migrationBuilder.DropTable(
+                name: "provoles");
 
             migrationBuilder.DropTable(
                 name: "cinemas");
@@ -259,6 +272,9 @@ namespace BookingWebApplication.Migrations
 
             migrationBuilder.DropTable(
                 name: "content_admins");
+
+            migrationBuilder.DropTable(
+                name: "users");
         }
     }
 }

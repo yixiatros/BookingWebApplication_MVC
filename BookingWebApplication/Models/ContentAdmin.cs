@@ -14,11 +14,11 @@ namespace BookingWebApplication.Models
         [StringLength(45)]
         public string Name { get; set; }
 
-        public int UserName { get; set; }
+        public string UserName { get; set; }
         [ForeignKey("UserName")]
         public virtual User User { get; set; } = null!;
 
-        public virtual ICollection<Movie> Movies { get; set; } = null!;
-        public virtual ICollection<Provoli> Provoles { get; set; } = null!;
+        public virtual ICollection<Movie>? Movies { get; set; }
+        public virtual ICollection<Provoli>? Provoles { get; set; }
     }
 }

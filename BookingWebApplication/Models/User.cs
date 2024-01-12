@@ -38,12 +38,12 @@ namespace BookingWebApplication.Models
 
         [NotMapped]
         [ScaffoldColumn(false)]
-        public virtual Admin Admin { get; set; }
+        public virtual Admin? Admin { get; set; }
         [NotMapped]
         [ScaffoldColumn(false)]
-        public virtual ContentAdmin ContentAdmin { get; set; }
+        public virtual ContentAdmin? ContentAdmin { get; set; }
         [NotMapped]
         [ScaffoldColumn(false)]
-        public virtual Customer Customer { get; set; }
+        public virtual Customer? Customer { get; set; }
     }
 }

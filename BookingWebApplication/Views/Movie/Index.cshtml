@@ -1,0 +1,24 @@
+﻿@model List<Movie>
+
+<head>
+    <link rel="stylesheet" href="~/css/movies.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+</head>
+
+<h1>Movie List</h1>
+
+<div class="centered">
+    <section class="cards">
+        @foreach (var obj in Model)
+        {
+            <a href="#">
+                <div class="card">
+                        <div class="title">@obj.MovieName</div>
+                        <div class="text">@obj.MovieSummary</div>
+                        <div class="type">@obj.MovieType <i class="fas fa-film"></i></div>
+                    <div class="length">@string.Format("{0}h {1}m", obj.MovieLength / 60, obj.MovieLength % 60) <i class="fas fa-clock"></i></div>
+                </div>
+            </a>
+        }
+    </section>
+</div>
