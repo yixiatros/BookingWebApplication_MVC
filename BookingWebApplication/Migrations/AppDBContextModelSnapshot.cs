@@ -44,7 +44,7 @@ namespace BookingWebApplication.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("admins");
+                    b.ToTable("admins", (string)null);
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.Cinema", b =>
@@ -74,7 +74,7 @@ namespace BookingWebApplication.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("cinemas");
+                    b.ToTable("cinemas", (string)null);
 
                     b.HasData(
                         new
@@ -122,7 +122,7 @@ namespace BookingWebApplication.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("content_admins");
+                    b.ToTable("content_admins", (string)null);
 
                     b.HasData(
                         new
@@ -155,7 +155,7 @@ namespace BookingWebApplication.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("customers");
+                    b.ToTable("customers", (string)null);
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.Movie", b =>
@@ -203,7 +203,7 @@ namespace BookingWebApplication.Migrations
 
                     b.HasIndex("ContentAdminId");
 
-                    b.ToTable("movies");
+                    b.ToTable("movies", (string)null);
 
                     b.HasData(
                         new
@@ -269,7 +269,7 @@ namespace BookingWebApplication.Migrations
 
                     b.HasIndex("ContentAdminId");
 
-                    b.ToTable("provoles");
+                    b.ToTable("provoles", (string)null);
 
                     b.HasData(
                         new
@@ -330,7 +330,7 @@ namespace BookingWebApplication.Migrations
 
                     b.HasIndex("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesCinemasId", "ProvolesContentAdminId");
 
-                    b.ToTable("reservations");
+                    b.ToTable("reservations", (string)null);
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.User", b =>
@@ -375,7 +375,7 @@ namespace BookingWebApplication.Migrations
 
                     b.HasKey("UserName");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
 
                     b.HasData(
                         new
