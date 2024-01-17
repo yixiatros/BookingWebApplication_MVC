@@ -34,9 +34,9 @@ namespace BookingWebApplication.Migrations
                     user_name = table.Column<string>(type: "nchar(32)", fixedLength: true, maxLength: 32, nullable: false),
                     email = table.Column<string>(type: "nchar(35)", fixedLength: true, maxLength: 35, nullable: false),
                     password = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
-                    create_time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    salt = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
-                    role = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false)
+                    create_time = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    salt = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: true),
+                    role = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,7 +86,7 @@ namespace BookingWebApplication.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false),
-                    name = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: false),
+                    name = table.Column<string>(type: "nchar(45)", fixedLength: true, maxLength: 45, nullable: true),
                     UserName = table.Column<string>(type: "nchar(32)", nullable: false)
                 },
                 constraints: table =>
@@ -200,7 +200,7 @@ namespace BookingWebApplication.Migrations
             migrationBuilder.InsertData(
                 table: "users",
                 columns: new[] { "user_name", "create_time", "email", "password", "role", "salt" },
-                values: new object[] { "al", new DateTime(2024, 1, 17, 8, 50, 57, 8, DateTimeKind.Local).AddTicks(6251), "al@testmail.com", "123456", "ContentAdmin", "123" });
+                values: new object[] { "al", new DateTime(2024, 1, 17, 15, 52, 1, 121, DateTimeKind.Local).AddTicks(5001), "al@testmail.com", "123456", "ContentAdmin", "123" });
 
             migrationBuilder.InsertData(
                 table: "content_admins",
@@ -222,10 +222,10 @@ namespace BookingWebApplication.Migrations
                 columns: new[] { "CinemasID", "CONTENT_ADMIN_ID", "MOVIES_ID", "MOVIES_NAME", "ShowDateTime", "ID" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, "The Shawshank Redemption", new DateTime(2024, 1, 22, 8, 50, 57, 8, DateTimeKind.Local).AddTicks(6569), 1 },
-                    { 1, 1, 1, "The Shawshank Redemption", new DateTime(2024, 1, 23, 15, 50, 57, 8, DateTimeKind.Local).AddTicks(6579), 1 },
-                    { 2, 1, 1, "The Shawshank Redemption", new DateTime(2024, 1, 21, 15, 50, 57, 8, DateTimeKind.Local).AddTicks(6581), 2 },
-                    { 3, 1, 2, "The Godfather", new DateTime(2024, 1, 22, 15, 50, 57, 8, DateTimeKind.Local).AddTicks(6584), 3 }
+                    { 1, 1, 1, "The Shawshank Redemption", new DateTime(2024, 1, 22, 15, 52, 1, 121, DateTimeKind.Local).AddTicks(5442), 1 },
+                    { 1, 1, 1, "The Shawshank Redemption", new DateTime(2024, 1, 23, 22, 52, 1, 121, DateTimeKind.Local).AddTicks(5450), 1 },
+                    { 2, 1, 1, "The Shawshank Redemption", new DateTime(2024, 1, 21, 22, 52, 1, 121, DateTimeKind.Local).AddTicks(5453), 2 },
+                    { 3, 1, 2, "The Godfather", new DateTime(2024, 1, 22, 22, 52, 1, 121, DateTimeKind.Local).AddTicks(5456), 3 }
                 });
 
             migrationBuilder.CreateIndex(

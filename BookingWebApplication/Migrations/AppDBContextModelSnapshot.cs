@@ -140,7 +140,6 @@ namespace BookingWebApplication.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nchar(45)")
                         .HasColumnName("name")
@@ -282,7 +281,7 @@ namespace BookingWebApplication.Migrations
                             MoviesName = "The Shawshank Redemption",
                             CinemasID = 1,
                             ContentAdminId = 1,
-                            ShowDateTime = new DateTime(2024, 1, 22, 8, 50, 57, 8, DateTimeKind.Local).AddTicks(6569),
+                            ShowDateTime = new DateTime(2024, 1, 22, 15, 52, 1, 121, DateTimeKind.Local).AddTicks(5442),
                             Id = 1
                         },
                         new
@@ -291,7 +290,7 @@ namespace BookingWebApplication.Migrations
                             MoviesName = "The Shawshank Redemption",
                             CinemasID = 1,
                             ContentAdminId = 1,
-                            ShowDateTime = new DateTime(2024, 1, 23, 15, 50, 57, 8, DateTimeKind.Local).AddTicks(6579),
+                            ShowDateTime = new DateTime(2024, 1, 23, 22, 52, 1, 121, DateTimeKind.Local).AddTicks(5450),
                             Id = 1
                         },
                         new
@@ -300,7 +299,7 @@ namespace BookingWebApplication.Migrations
                             MoviesName = "The Shawshank Redemption",
                             CinemasID = 2,
                             ContentAdminId = 1,
-                            ShowDateTime = new DateTime(2024, 1, 21, 15, 50, 57, 8, DateTimeKind.Local).AddTicks(6581),
+                            ShowDateTime = new DateTime(2024, 1, 21, 22, 52, 1, 121, DateTimeKind.Local).AddTicks(5453),
                             Id = 2
                         },
                         new
@@ -309,7 +308,7 @@ namespace BookingWebApplication.Migrations
                             MoviesName = "The Godfather",
                             CinemasID = 3,
                             ContentAdminId = 1,
-                            ShowDateTime = new DateTime(2024, 1, 22, 15, 50, 57, 8, DateTimeKind.Local).AddTicks(6584),
+                            ShowDateTime = new DateTime(2024, 1, 22, 22, 52, 1, 121, DateTimeKind.Local).AddTicks(5456),
                             Id = 3
                         });
                 });
@@ -361,7 +360,7 @@ namespace BookingWebApplication.Migrations
                         .HasColumnName("user_name")
                         .IsFixedLength();
 
-                    b.Property<DateTime>("CreateTime")
+                    b.Property<DateTime?>("CreateTime")
                         .HasColumnType("datetime2")
                         .HasColumnName("create_time");
 
@@ -380,14 +379,12 @@ namespace BookingWebApplication.Migrations
                         .IsFixedLength();
 
                     b.Property<string>("Role")
-                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nchar(45)")
                         .HasColumnName("role")
                         .IsFixedLength();
 
                     b.Property<string>("Salt")
-                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nchar(45)")
                         .HasColumnName("salt")
@@ -401,7 +398,7 @@ namespace BookingWebApplication.Migrations
                         new
                         {
                             UserName = "al",
-                            CreateTime = new DateTime(2024, 1, 17, 8, 50, 57, 8, DateTimeKind.Local).AddTicks(6251),
+                            CreateTime = new DateTime(2024, 1, 17, 15, 52, 1, 121, DateTimeKind.Local).AddTicks(5001),
                             Email = "al@testmail.com",
                             Password = "123456",
                             Role = "ContentAdmin",

@@ -26,15 +26,15 @@ namespace BookingWebApplication.Models
         [Column("create_time")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime CreateTime { get; set; }
+        public DateTime? CreateTime { get; set; }
 
         [Column("salt")]
         [StringLength(45)]
-        public string Salt { get; set; }
+        public string? Salt { get; set; }
 
         [Column("role")]
         [StringLength(45)]
-        public string Role { get; set; }
+        public string? Role { get; set; }
 
         [NotMapped]
         [ScaffoldColumn(false)]

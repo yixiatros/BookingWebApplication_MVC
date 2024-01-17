@@ -1,0 +1,45 @@
+﻿@model BookingWebApplication.Models.User
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+</head>
+
+<div class="login-title">
+    <h2>Register</h2>
+</div>
+
+<div class="login-box">
+    <form asp-action="Register" method="post">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" class="login-control form-control" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="login-control form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" type="password" class="login-control form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="login-buttons-links">
+            <button class="login-button btn btn-secondary" type="submit">Register</button>
+            <a class="register-link" asp-action="Login">Login</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

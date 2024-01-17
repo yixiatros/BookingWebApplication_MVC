@@ -48,6 +48,12 @@ namespace BookingWebApplication.Controllers
             return View();
         }
 
+        // GET: Account/Register
+        public IActionResult Register()
+        {
+            return View();
+        }
+
         // POST: Account/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -59,6 +65,27 @@ namespace BookingWebApplication.Controllers
             if (ModelState.IsValid)
             {
                 _context.Add(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(user);
+        }
+
+        // Post: Account/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register([Bind("UserName,Email,Password")] User user)
+        {
+            user.CreateTime = DateTime.Now;
+            user.Salt = RandomString(3);
+            user.Role = "Customer";
+            if (ModelState.IsValid)
+            {
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+
+                Customer customer = new Customer { UserName = user.UserName };
+                _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -186,6 +213,14 @@ namespace BookingWebApplication.Controllers
                 HttpContext.Session.Remove("UserSession");
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        private static Random random = new Random();
+        private static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
