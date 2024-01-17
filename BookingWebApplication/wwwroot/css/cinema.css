@@ -1,0 +1,77 @@
+﻿:root {
+    --primary-color: #282828;
+    --secondary-color: #121212;
+    --accent-color: #575757;
+    --light-primary-color: #717171;
+    --light-secondary-color: #8b8b8b;
+    --text-color: #E1E1E1;
+    --selected-color: #C28427;
+    --hover-selected-color: #E2b427;
+    --hover-color: #E1E1E1;
+}
+
+body {
+    overflow:hidden;
+}
+
+.cinema-info {
+    margin-top: 1em;
+    margin-left: 1em;
+}
+
+.cinema-table {
+    margin-top: 2em;
+}
+.cinema-table tr {
+    border: 2px solid var(--primary-color);
+    font-size: 1.05em;
+    position: relative;
+}
+table.cinema-table td:first-child {
+    padding: 0;
+}
+table.cinema-table a {
+    font-size: 3em;
+    position: absolute;
+    display: block;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+table.cinema-table a:hover {
+    background: none;
+    color: var(--hover-color);
+    text-decoration: none;
+}
+.cinema-tr:hover {
+    border: 2px solid var(--primary-color);
+    background: var(--hover-color);
+    color: var(--primary-color);
+}
+.cinema-table th {
+    font-size: 1.2em;
+    padding: 1em 1em;
+}
+.cinema-table td {
+    padding: 0.5em 7em 0.5em 1em;
+}
+
+.table-movies {
+    margin-top: 2em;
+    margin-left: 1em;
+}
+.table-movies tr {
+    font-size: 1.05em;
+}
+.table-movies td {
+    padding: 0.5em;
+    padding-inline-start: 1em;
+}
+.table-movies a {
+    color: var(--light-primary-color);
+}
+.table-movies a:hover {
+    color: var(--text-color);
+}

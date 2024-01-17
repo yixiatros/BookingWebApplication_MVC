@@ -10,10 +10,6 @@
     --hover-color: #E1E1E1;
 }
 
-body {
-    font-family: sans-serif;
-}
-
 .calendar {
     display: flex;
     flex-wrap: wrap;

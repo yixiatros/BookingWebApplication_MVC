@@ -1,0 +1,46 @@
+﻿@model Tuple<Cinema, List<Provoli>, List<Movie>>
+
+<head>
+    <link rel="stylesheet" href="~/css/cinema.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+</head>
+
+<h2>Cinema</h2>
+
+<div class="cinema-info">
+    <h3>Information</h3>
+    <div class="inner-info" style="margin-inline-start: 2em">
+        <div><i class="fas fa-building"></i>&nbsp;<span>Name:</span>&nbsp;&nbsp;<span>@Model.Item1.Name</span></div>
+        <div><i class="fas fa-film"></i>&nbsp;<span>No of seats per hall:</span>&nbsp;&nbsp;<span>@Model.Item1.Seats</span></div>
+        <div><i class="fas fa-glasses"></i>&nbsp;<span>3D:</span>&nbsp;&nbsp;<span>@Model.Item1.I3D</span></div>
+    </div>
+</div>
+
+<table class="table-movies">
+    <tr>
+        <th>
+            Movie List
+        </th>
+    </tr>
+    @{
+        List<int> movies = new List<int>();
+    }
+
+    @foreach(var item in Model.Item1.Provoles)
+    {
+        if (!movies.Contains(item.MoviesId))
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Provoli" asp-action="Index"
+                    asp-route-cinemasId="@Model.Item1.Id"
+                    asp-route-moviesId="@item.MoviesId"
+                    asp-route-id="@item.Movie.ContentAdminId">
+                        @item.MoviesName
+                    </a>
+                </td>
+            </tr>
+            movies.Add(item.MoviesId);
+        }
+    }
+</table>

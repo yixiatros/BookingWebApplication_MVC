@@ -1,0 +1,26 @@
+﻿@model List<BookingWebApplication.Models.Cinema>
+
+<head>
+    <link rel="stylesheet" href="~/css/cinema.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+</head>
+
+<h2>Cinemas</h2>
+
+<table class="cinema-table">
+    <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Seats</th>
+        <th>3D</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr class="cinema-tr">
+            <td><a asp-action="Details" asp-route-id="@item.Id">&nbsp;</a></td>
+            <td>@item.Name</td>
+            <td>@item.Seats</td>
+            <td>@item.I3D</td>
+        </tr>
+    }
+</table>

@@ -87,7 +87,9 @@ namespace BookingWebApplication.Controllers
                 Customer customer = new Customer { UserName = user.UserName };
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                HttpContext.Session.SetString("UserSession", user.Email);
+                return RedirectToAction("Index", "Home");
             }
             return View(user);
         }
