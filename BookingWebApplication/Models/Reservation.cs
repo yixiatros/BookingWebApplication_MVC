@@ -24,6 +24,9 @@ namespace BookingWebApplication.Models
         [NotMapped]
         [ScaffoldColumn(false)]
         public int ProvolesContentAdminId { get; set; }
+        [NotMapped]
+        [ScaffoldColumn(false)]
+        public DateTime? PovolesDateTime { get; set; }
         [InverseProperty("Reservations")]
         public virtual Provoli? Provoli { get; set; } = null!;
 

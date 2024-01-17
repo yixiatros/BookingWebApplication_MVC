@@ -1,4 +1,4 @@
-﻿@model Tuple<BookingWebApplication.Models.Provoli, BookingWebApplication.Models.Cinema>
+﻿@model Tuple<List<BookingWebApplication.Models.Provoli>, BookingWebApplication.Models.Cinema>
 @* @model BookingWebApplication.Models.Provoli *@
 
 <head>
@@ -8,48 +8,45 @@
 
 <h1>Projection</h1>
 
-<div class="calendar">
-    <table class="calendar-table">
+<div class="provoles-list">
+    <table class="provoles-table">
         <tr>
-            <th><label for="radio-sunday">Sunday</label></th>
-            <th><label for="radio-monday">Monday</label></th>
-            <th><label for="radio-tuesday">Tuesday</label></th>
-            <th><label for="radio-wednesday">Wednesday</label></th>
-            <th><label for="radio-thursday">Thursday</label></th>
-            <th><label for="radio-friday">Friday</label></th>
-            <th><label for="radio-saturday">Saturday</label></th>
+            <th>Movie Name</th>
+            <th>Date & Time</th>
+            <th>Available Seats</th>
         </tr>
-        <tr>
-            <td><input class="calendar-radio" type="radio" name="radio" id="radio-sunday"></td>
-            <td><input class="calendar-radio" type="radio" name="radio" id="radio-monday"></td>
-            <td><input class="calendar-radio" type="radio" name="radio" id="radio-tuesday"></td>
-            <td><input class="calendar-radio" type="radio" name="radio" id="radio-wednesday"></td>
-            <td><input class="calendar-radio" type="radio" name="radio" id="radio-thursday"></td>
-            <td><input class="calendar-radio" type="radio" name="radio" id="radio-friday"></td>
-            <td><input class="calendar-radio" type="radio" name="radio" id="radio-saturday"></td>
-        </tr>
+        @foreach (var item in Model.Item1.OrderBy(e => e.ShowDateTime))
+        {
+            <tr class="provoles-table-row" id="@item.ShowDateTime" onclick="onDateTimeSelected('@item.ShowDateTime')">
+                <td>@item.MoviesName</td>
+                <td>@item.ShowDateTime</td>
+                <td>@item.Cinema.Seats</td>
+            </tr>
+        }
     </table>
 </div>
 
-<h1>Tickets</h1>
+<div class="ticket-view" id="ticketView" hidden>
+    <h1>Tickets</h1>
 
-<div class="seats">
-    @for (int i = 1; i <= Model.Item2.Seats; i++)
-    {
-        <div class="seat seat-available" id="@i" onclick="onSeatClick(@i)"><span class="seat-text">@i</span></div>
-    }
-</div>
-
-<div class="screen-container">
-    <div class="screen">
-        <div class="screen-inner">Screen</div>
+    <div class="seats">
+        @for (int i = 1; i <= Model.Item2.Seats; i++)
+        {
+            <div class="seat seat-available" id="@i" onclick="onSeatClick(@i)"><span class="seat-text">@i</span></div>
+        }
     </div>
+
+    <div class="screen-container">
+        <div class="screen">
+            <div class="screen-inner">Screen</div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <form class="reserve-form" id="reserve-form">
+        <input class="selected-seats selected-seats-text" type="text" id="selected-seats-text" disabled />
+        <button class="selected-seats selected-seats-button" id="selected-seats-button" onclick="onButtonSubmit()" type="button">Reserve</button>
+    </form>
 </div>
-
-<br>
-<br>
-
-<form class="reserve-form" id="reserve-form">
-    <input class="selected-seats selected-seats-text" type="text" id="selected-seats-text" disabled />
-    <button class="selected-seats selected-seats-button" id="selected-seats-button" onclick="onButtonSubmit()" type="button">Reserve</button>
-</form>

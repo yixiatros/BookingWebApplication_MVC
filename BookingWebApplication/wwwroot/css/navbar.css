@@ -1,3 +1,15 @@
+:root {
+    --primary-color: #282828;
+    --secondary-color: #121212;
+    --accent-color: #575757;
+    --light-primary-color: #717171;
+    --light-secondary-color: #8b8b8b;
+    --text-color: #E1E1E1;
+    --selected-color: #C28427;
+    --hover-selected-color: #E2b427;
+    --hover-color: #E1E1E1;
+}
+
 body {
     padding-bottom: 20px;
 }

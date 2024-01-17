@@ -98,7 +98,7 @@ public partial class AppDBContext : DbContext
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasKey(e => new { e.MoviesId, e.MoviesName, e.CinemasID, e.ContentAdminId });
+            entity.HasKey(e => new { e.MoviesId, e.MoviesName, e.CinemasID, e.ContentAdminId, e.ShowDateTime });
         });
 
         modelBuilder.Entity<Reservation>(entity =>
@@ -106,7 +106,7 @@ public partial class AppDBContext : DbContext
             entity
             .HasOne(e => e.Provoli)
             .WithMany(e => e.Reservations)
-            .HasForeignKey(e => new {e.ProvolesMoviesId, e.ProvolesMoviesName, e.ProvolesCinemasId, e.ProvolesContentAdminId})
+            .HasForeignKey(e => new {e.ProvolesMoviesId, e.ProvolesMoviesName, e.ProvolesCinemasId, e.ProvolesContentAdminId, e.PovolesDateTime})
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
@@ -164,9 +164,10 @@ public partial class AppDBContext : DbContext
             );
 
         modelBuilder.Entity<Provoli>().HasData(
-            new Provoli { MoviesId = 1, MoviesName = "The Shawshank Redemption", CinemasID = 1, Id = 1, ContentAdminId = 1 },
-            new Provoli { MoviesId = 1, MoviesName = "The Shawshank Redemption", CinemasID = 2, Id = 2, ContentAdminId = 1 },
-            new Provoli { MoviesId = 2, MoviesName = "The Godfather", CinemasID = 3, Id = 3, ContentAdminId = 1 }
+            new Provoli { MoviesId = 1, MoviesName = "The Shawshank Redemption", CinemasID = 1, Id = 1, ContentAdminId = 1, ShowDateTime = DateTime.Now.AddDays(5) },
+            new Provoli { MoviesId = 1, MoviesName = "The Shawshank Redemption", CinemasID = 1, Id = 1, ContentAdminId = 1, ShowDateTime = DateTime.Now.AddDays(6).AddHours(7) },
+            new Provoli { MoviesId = 1, MoviesName = "The Shawshank Redemption", CinemasID = 2, Id = 2, ContentAdminId = 1, ShowDateTime = DateTime.Now.AddDays(4).AddHours(7) },
+            new Provoli { MoviesId = 2, MoviesName = "The Godfather", CinemasID = 3, Id = 3, ContentAdminId = 1, ShowDateTime = DateTime.Now.AddDays(5).AddHours(7) }
             );
         // TODO Testing Data DELETE AFTER TESTING
 

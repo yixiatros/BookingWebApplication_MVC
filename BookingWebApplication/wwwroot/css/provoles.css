@@ -40,6 +40,32 @@ body {
     background-size: 9px 9px;
 }
 
+.provoles-list {
+    margin-bottom: 3em;
+}
+.provoles-table tr {
+    border: 2px solid var(--primary-color);
+    font-size: 1.05em;
+}
+.provoles-table th {
+    font-size: 1.2em;
+    padding: 0.2em 7em 0.2em 0.5em;
+}
+.provoles-table td {
+    padding: 1em 7em 1em 0.5em;
+}
+.provoles-table-row {
+    cursor: pointer;
+}
+.provoles-table-row:hover {
+    background-color: var(--hover-color);
+    color: var(--primary-color);
+}
+.provoles-selected {
+    background-color: var(--selected-color);
+    color: var(--primary-color);
+}
+
 .seats {
     display: flex;
     flex-wrap: wrap;

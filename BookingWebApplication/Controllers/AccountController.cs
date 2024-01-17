@@ -53,8 +53,9 @@ namespace BookingWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserName,Email,Password,CreateTime,Salt,Role")] User user)
+        public async Task<IActionResult> Create([Bind("UserName,Email,Password,Salt,Role")] User user)
         {
+            user.CreateTime = DateTime.Now;
             if (ModelState.IsValid)
             {
                 _context.Add(user);
@@ -77,6 +78,7 @@ namespace BookingWebApplication.Controllers
             {
                 return NotFound();
             }
+
             return View(user);
         }
 
@@ -166,6 +168,7 @@ namespace BookingWebApplication.Controllers
             if (userFromDb != null)
             {
                 // Successful login, redirect to a secure area
+                HttpContext.Session.SetString("UserSession", userFromDb.Email);
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -174,6 +177,15 @@ namespace BookingWebApplication.Controllers
                 ViewBag.Error = "Invalid username or password";
                 return View();
             }
+        }
+
+        public IActionResult Logout()
+        {
+            if (HttpContext.Session.GetString("UserSession") != null)
+            {
+                HttpContext.Session.Remove("UserSession");
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

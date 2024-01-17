@@ -30,3 +30,20 @@ function onButtonSubmit() {
 
     document.getElementById("reserve-form").submit();
 }
+
+function onDateTimeSelected(id) {
+    const tickeView = document.getElementById("ticketView");
+
+    if (tickeView.hidden) {
+        tickeView.hidden = false;
+        document.getElementById(id).classList.add("provoles-selected");
+        return;
+    }
+
+    tickeView.hidden = true;
+    const selected = document.querySelectorAll(".provoles-selected");
+
+    selected.forEach((s) => {
+        s.classList.remove("provoles-selected");
+    });
+}

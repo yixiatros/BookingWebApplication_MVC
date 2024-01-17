@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingWebApplication.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240112091305_AddModelsTodb")]
+    [Migration("20240117065057_AddModelsTodb")]
     partial class AddModelsTodb
     {
         /// <inheritdoc />
@@ -262,11 +262,15 @@ namespace BookingWebApplication.Migrations
                         .HasColumnType("int")
                         .HasColumnName("CONTENT_ADMIN_ID");
 
+                    b.Property<DateTime?>("ShowDateTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ShowDateTime");
+
                     b.Property<int>("Id")
                         .HasColumnType("int")
                         .HasColumnName("ID");
 
-                    b.HasKey("MoviesId", "MoviesName", "CinemasID", "ContentAdminId");
+                    b.HasKey("MoviesId", "MoviesName", "CinemasID", "ContentAdminId", "ShowDateTime");
 
                     b.HasIndex("CinemasID");
 
@@ -281,6 +285,16 @@ namespace BookingWebApplication.Migrations
                             MoviesName = "The Shawshank Redemption",
                             CinemasID = 1,
                             ContentAdminId = 1,
+                            ShowDateTime = new DateTime(2024, 1, 22, 8, 50, 57, 8, DateTimeKind.Local).AddTicks(6569),
+                            Id = 1
+                        },
+                        new
+                        {
+                            MoviesId = 1,
+                            MoviesName = "The Shawshank Redemption",
+                            CinemasID = 1,
+                            ContentAdminId = 1,
+                            ShowDateTime = new DateTime(2024, 1, 23, 15, 50, 57, 8, DateTimeKind.Local).AddTicks(6579),
                             Id = 1
                         },
                         new
@@ -289,6 +303,7 @@ namespace BookingWebApplication.Migrations
                             MoviesName = "The Shawshank Redemption",
                             CinemasID = 2,
                             ContentAdminId = 1,
+                            ShowDateTime = new DateTime(2024, 1, 21, 15, 50, 57, 8, DateTimeKind.Local).AddTicks(6581),
                             Id = 2
                         },
                         new
@@ -297,6 +312,7 @@ namespace BookingWebApplication.Migrations
                             MoviesName = "The Godfather",
                             CinemasID = 3,
                             ContentAdminId = 1,
+                            ShowDateTime = new DateTime(2024, 1, 22, 15, 50, 57, 8, DateTimeKind.Local).AddTicks(6584),
                             Id = 3
                         });
                 });
@@ -324,6 +340,10 @@ namespace BookingWebApplication.Migrations
                         .HasColumnType("int")
                         .HasColumnName("NUMBER_OF_SEATS");
 
+                    b.Property<DateTime?>("PovolesDateTime")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("ProvolesContentAdminId")
                         .HasColumnType("int");
 
@@ -331,7 +351,7 @@ namespace BookingWebApplication.Migrations
 
                     b.HasIndex("CustomersId");
 
-                    b.HasIndex("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesCinemasId", "ProvolesContentAdminId");
+                    b.HasIndex("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesCinemasId", "ProvolesContentAdminId", "PovolesDateTime");
 
                     b.ToTable("reservations");
                 });
@@ -384,7 +404,7 @@ namespace BookingWebApplication.Migrations
                         new
                         {
                             UserName = "al",
-                            CreateTime = new DateTime(2024, 1, 12, 11, 13, 4, 584, DateTimeKind.Local).AddTicks(6454),
+                            CreateTime = new DateTime(2024, 1, 17, 8, 50, 57, 8, DateTimeKind.Local).AddTicks(6251),
                             Email = "al@testmail.com",
                             Password = "123456",
                             Role = "ContentAdmin",
@@ -473,7 +493,7 @@ namespace BookingWebApplication.Migrations
 
                     b.HasOne("BookingWebApplication.Models.Provoli", "Provoli")
                         .WithMany("Reservations")
-                        .HasForeignKey("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesCinemasId", "ProvolesContentAdminId")
+                        .HasForeignKey("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesCinemasId", "ProvolesContentAdminId", "PovolesDateTime")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

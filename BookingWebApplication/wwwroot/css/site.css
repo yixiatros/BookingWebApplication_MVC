@@ -4,8 +4,10 @@
     --accent-color: #575757;
     --light-primary-color: #717171;
     --light-secondary-color: #8b8b8b;
-
     --text-color: #E1E1E1;
+    --selected-color: #C28427;
+    --hover-selected-color: #E2b427;
+    --hover-color: #E1E1E1;
 }
 
 html {

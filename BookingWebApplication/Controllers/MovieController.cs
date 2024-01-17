@@ -13,6 +13,15 @@ namespace BookingWebApplication.Controllers
             _dbContext = dbContext;
         }
 
+        public override ViewResult View(string? viewName, object? model)
+        {
+            if (HttpContext.Session.GetString("UserSession") != null)
+            {
+                this.ViewBag.MySession = HttpContext.Session.GetString("UserSession").ToString();
+            }
+            return base.View(viewName, model);
+        }
+
         public async Task<IActionResult> Index()
         {
             return View(await _dbContext.Movies.ToListAsync());

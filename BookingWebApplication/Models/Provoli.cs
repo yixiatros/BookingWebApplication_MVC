@@ -32,6 +32,12 @@ namespace BookingWebApplication.Models
         public int Id { get; set; }
 
         [Key]
+        [Column("ShowDateTime")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? ShowDateTime { get; set; }
+
+        [Key]
         [Column("CONTENT_ADMIN_ID")]
         public int ContentAdminId { get; set; }
         [ForeignKey("ContentAdminId")]

@@ -1,5 +1,6 @@
 using BookingWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Diagnostics;
 
 namespace BookingWebApplication.Controllers
@@ -11,6 +12,15 @@ namespace BookingWebApplication.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+        }
+
+        public override ViewResult View(string? viewName, object? model)
+        {
+            if (HttpContext.Session.GetString("UserSession") != null)
+            {
+                this.ViewBag.MySession = HttpContext.Session.GetString("UserSession").ToString();
+            }
+            return base.View(viewName, model);
         }
 
         public IActionResult Index()

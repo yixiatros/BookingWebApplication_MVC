@@ -1,0 +1,50 @@
+﻿:root {
+    --primary-color: #282828;
+    --secondary-color: #121212;
+    --accent-color: #575757;
+    --light-primary-color: #717171;
+    --light-secondary-color: #8b8b8b;
+    --text-color: #E1E1E1;
+    --selected-color: #C28427;
+    --hover-selected-color: #E2b427;
+    --hover-color: #E1E1E1;
+}
+
+.login-alert, .login-title {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.login-box {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 2% auto 0 auto;
+    width: 600px;
+    height: 400px;
+    background: var(--primary-color);
+    border-radius: 0.5em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    border-top: 2px solid #5c636a;
+    border-bottom: 2px solid #5c636a;
+}
+
+.login-control {
+    margin-bottom: 0.6em;
+}
+
+.login-buttons-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-button {
+    margin-inline-end: 2em;
+}

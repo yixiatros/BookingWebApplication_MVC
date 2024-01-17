@@ -131,12 +131,13 @@ namespace BookingWebApplication.Migrations
                     MOVIES_ID = table.Column<int>(type: "int", nullable: false),
                     MOVIES_NAME = table.Column<string>(type: "nchar(45)", maxLength: 45, nullable: false),
                     CinemasID = table.Column<int>(type: "int", nullable: false),
+                    ShowDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CONTENT_ADMIN_ID = table.Column<int>(type: "int", nullable: false),
                     ID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_provoles", x => new { x.MOVIES_ID, x.MOVIES_NAME, x.CinemasID, x.CONTENT_ADMIN_ID });
+                    table.PrimaryKey("PK_provoles", x => new { x.MOVIES_ID, x.MOVIES_NAME, x.CinemasID, x.CONTENT_ADMIN_ID, x.ShowDateTime });
                     table.ForeignKey(
                         name: "FK_provoles_cinemas_CinemasID",
                         column: x => x.CinemasID,
@@ -166,6 +167,7 @@ namespace BookingWebApplication.Migrations
                     PROVOLES_CINEMAS_ID = table.Column<int>(type: "int", nullable: false),
                     CUSTOMERS_ID = table.Column<int>(type: "int", nullable: false),
                     ProvolesContentAdminId = table.Column<int>(type: "int", nullable: false),
+                    PovolesDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NUMBER_OF_SEATS = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -178,10 +180,10 @@ namespace BookingWebApplication.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_reservations_provoles_PROVOLES_MOVIES_ID_PROVOLES_MOVIES_NAME_PROVOLES_CINEMAS_ID_ProvolesContentAdminId",
-                        columns: x => new { x.PROVOLES_MOVIES_ID, x.PROVOLES_MOVIES_NAME, x.PROVOLES_CINEMAS_ID, x.ProvolesContentAdminId },
+                        name: "FK_reservations_provoles_PROVOLES_MOVIES_ID_PROVOLES_MOVIES_NAME_PROVOLES_CINEMAS_ID_ProvolesContentAdminId_PovolesDateTime",
+                        columns: x => new { x.PROVOLES_MOVIES_ID, x.PROVOLES_MOVIES_NAME, x.PROVOLES_CINEMAS_ID, x.ProvolesContentAdminId, x.PovolesDateTime },
                         principalTable: "provoles",
-                        principalColumns: new[] { "MOVIES_ID", "MOVIES_NAME", "CinemasID", "CONTENT_ADMIN_ID" },
+                        principalColumns: new[] { "MOVIES_ID", "MOVIES_NAME", "CinemasID", "CONTENT_ADMIN_ID", "ShowDateTime" },
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -198,7 +200,7 @@ namespace BookingWebApplication.Migrations
             migrationBuilder.InsertData(
                 table: "users",
                 columns: new[] { "user_name", "create_time", "email", "password", "role", "salt" },
-                values: new object[] { "al", new DateTime(2024, 1, 12, 11, 13, 4, 584, DateTimeKind.Local).AddTicks(6454), "al@testmail.com", "123456", "ContentAdmin", "123" });
+                values: new object[] { "al", new DateTime(2024, 1, 17, 8, 50, 57, 8, DateTimeKind.Local).AddTicks(6251), "al@testmail.com", "123456", "ContentAdmin", "123" });
 
             migrationBuilder.InsertData(
                 table: "content_admins",
@@ -217,12 +219,13 @@ namespace BookingWebApplication.Migrations
 
             migrationBuilder.InsertData(
                 table: "provoles",
-                columns: new[] { "CinemasID", "CONTENT_ADMIN_ID", "MOVIES_ID", "MOVIES_NAME", "ID" },
+                columns: new[] { "CinemasID", "CONTENT_ADMIN_ID", "MOVIES_ID", "MOVIES_NAME", "ShowDateTime", "ID" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, "The Shawshank Redemption", 1 },
-                    { 2, 1, 1, "The Shawshank Redemption", 2 },
-                    { 3, 1, 2, "The Godfather", 3 }
+                    { 1, 1, 1, "The Shawshank Redemption", new DateTime(2024, 1, 22, 8, 50, 57, 8, DateTimeKind.Local).AddTicks(6569), 1 },
+                    { 1, 1, 1, "The Shawshank Redemption", new DateTime(2024, 1, 23, 15, 50, 57, 8, DateTimeKind.Local).AddTicks(6579), 1 },
+                    { 2, 1, 1, "The Shawshank Redemption", new DateTime(2024, 1, 21, 15, 50, 57, 8, DateTimeKind.Local).AddTicks(6581), 2 },
+                    { 3, 1, 2, "The Godfather", new DateTime(2024, 1, 22, 15, 50, 57, 8, DateTimeKind.Local).AddTicks(6584), 3 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -264,9 +267,9 @@ namespace BookingWebApplication.Migrations
                 column: "CUSTOMERS_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_reservations_PROVOLES_MOVIES_ID_PROVOLES_MOVIES_NAME_PROVOLES_CINEMAS_ID_ProvolesContentAdminId",
+                name: "IX_reservations_PROVOLES_MOVIES_ID_PROVOLES_MOVIES_NAME_PROVOLES_CINEMAS_ID_ProvolesContentAdminId_PovolesDateTime",
                 table: "reservations",
-                columns: new[] { "PROVOLES_MOVIES_ID", "PROVOLES_MOVIES_NAME", "PROVOLES_CINEMAS_ID", "ProvolesContentAdminId" });
+                columns: new[] { "PROVOLES_MOVIES_ID", "PROVOLES_MOVIES_NAME", "PROVOLES_CINEMAS_ID", "ProvolesContentAdminId", "PovolesDateTime" });
         }
 
         /// <inheritdoc />
