@@ -1,0 +1,64 @@
+﻿@model Tuple<Provoli, Movie, Cinema, List<Reservation>>
+
+<head>
+    <link rel="stylesheet" href="~/css/reservations.css" asp-append-version="true" />
+    <script src="~/js/reservations.js" type="text/javascript" asp-append-version="true"></script>
+</head>
+
+<div class="ticket-view" id="ticketView">
+    <h1>Tickets</h1>
+
+    <div class="seats">
+        @{
+            List<int> takenSeats = new List<int>();
+            if (Model.Item4.Count >= 0)
+                foreach (var item in Model.Item4)
+                {
+                    string[] seats = item.Seats.Split(' ');
+                    foreach(var seat in seats)
+                    {
+                        if (int.TryParse(seat, out int seat_int))
+                        {
+                            takenSeats.Add(seat_int);
+                        }
+                    }
+                }
+        }
+        @for (int i = 1; i <= Model.Item3.Seats; i++)
+        {
+            if (!takenSeats.Contains(i))
+            {
+                <div class="seat seat-available" id="@i" onclick="onSeatClick(@i)"><span class="seat-text">@i</span></div>
+            }
+            else
+            {
+                <div class="seat seat-occupied" id="@i"><span class="seat-text">@i</span></div>
+
+            }
+        }
+    </div>
+
+    <div class="screen-container">
+        <div class="screen">
+            <div class="screen-inner">Screen</div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <form class="reserve-form" id="reserve-form" asp-action="Create">
+        <input value="@Model.Item2.MovieId" id="ProvolesMoviesId" name="ProvolesMoviesId" type="text" hidden readonly />
+
+        <input value="@Model.Item2.MovieName" id="ProvolesMoviesName" name="ProvolesMoviesName" type="text" hidden readonly />
+
+        <input value="@Model.Item3.Id" id="ProvolesCinemasId" name="ProvolesCinemasId" type="text" hidden readonly />
+
+        <input value="@Model.Item1.ShowDateTime" id="ProvolesDateTime" name="ProvolesDateTime" type="text" hidden readonly />
+
+        <input value="@Model.Item1.ContentAdminId" id="ProvolesContentAdminId" name="ProvolesContentAdminId" type="text" hidden readonly />
+
+        <input class="selected-seats selected-seats-text" name="Seats" type="text" id="Seats" readonly />
+        <button class="selected-seats selected-seats-button" id="selected-seats-button" onclick="onButtonSubmit()" type="button">Reserve</button>
+    </form>
+</div>

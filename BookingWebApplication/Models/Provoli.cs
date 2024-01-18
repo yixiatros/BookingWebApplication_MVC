@@ -34,7 +34,7 @@ namespace BookingWebApplication.Models
         [Key]
         [Column("ShowDateTime")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? ShowDateTime { get; set; }
 
         [Key]

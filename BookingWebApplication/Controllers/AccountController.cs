@@ -89,6 +89,7 @@ namespace BookingWebApplication.Controllers
                 await _context.SaveChangesAsync();
 
                 HttpContext.Session.SetString("UserSession", user.Email);
+                HttpContext.Session.SetString("UserName", user.UserName);
                 return RedirectToAction("Index", "Home");
             }
             return View(user);
@@ -198,6 +199,7 @@ namespace BookingWebApplication.Controllers
             {
                 // Successful login, redirect to a secure area
                 HttpContext.Session.SetString("UserSession", userFromDb.Email);
+                HttpContext.Session.SetString("UserName", user.UserName);
                 return RedirectToAction("Index", "Home");
             }
             else

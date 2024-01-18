@@ -20,13 +20,22 @@ namespace BookingWebApplication.Models
         [ForeignKey("ProvolesCinemasId")]
         [Column("PROVOLES_CINEMAS_ID")]
         public int ProvolesCinemasId { get; set; }
+        [Key]
+        [ForeignKey("ProvolesId")]
+        [Column("PROVOLES_ID")]
+        public int ProvolesId { get; set; }
 
         [NotMapped]
         [ScaffoldColumn(false)]
+        [ForeignKey("ProvolesContentAdminId")]
         public int ProvolesContentAdminId { get; set; }
-        [NotMapped]
-        [ScaffoldColumn(false)]
-        public DateTime? PovolesDateTime { get; set; }
+
+        [Key]
+        [ForeignKey("PovolesDateTime")]
+        [Column("PROVOLES_Date_Time")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
+        public DateTime ProvolesDateTime { get; set; }
         [InverseProperty("Reservations")]
         public virtual Provoli? Provoli { get; set; } = null!;
 
@@ -39,5 +48,8 @@ namespace BookingWebApplication.Models
 
         [Column("NUMBER_OF_SEATS")]
         public int NumberOfSeats { get; set; }
+
+        [Column("Seats")]
+        public string Seats { get; set; }
     }
 }

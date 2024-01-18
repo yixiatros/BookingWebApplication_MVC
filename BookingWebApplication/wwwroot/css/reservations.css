@@ -1,0 +1,124 @@
+﻿:root {
+    --primary-color: #282828;
+    --secondary-color: #121212;
+    --accent-color: #575757;
+    --light-primary-color: #717171;
+    --light-secondary-color: #8b8b8b;
+    --text-color: #E1E1E1;
+    --selected-color: #C28427;
+    --hover-selected-color: #E2b427;
+    --hover-color: #E1E1E1;
+}
+
+.seats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+.seat {
+    flex: 0 1 calc(25% - 1em);
+    position: relative;
+    overflow: hidden;
+    width: 1.4em;
+    max-width: 1.4em;
+    height: 1.3em;
+    max-height: 1.3em;
+    background-color: var(--accent-color);
+    margin: 4px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    cursor: pointer;
+    text-align: center;
+}
+.seat-available:hover {
+    background-color: var(--hover-color);
+}
+.seat-selected {
+    background-color: var(--selected-color);
+}
+.seat-selected:hover {
+    background-color: var(--hover-selected-color);
+}
+.seat-occupied {
+    background-color: #202020;
+    cursor: not-allowed;
+}
+.seat-text {
+    font-size: 0.8em;
+    color: #fffc;
+}
+.screen-container {
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.screen {
+    background-color: var(--text-color);
+    height: 1em;
+    width: 30em;
+    border-bottom-right-radius: 100px;
+    border-bottom-left-radius: 100px;
+}
+.screen-inner {
+    background-color: var(--primary-color);
+    margin-top: 5px;
+    height: 1.5em;
+    width: 30em;
+    text-align: center;
+    border-bottom-right-radius: 100px;
+    border-bottom-left-radius: 100px;
+}
+.reserve-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.selected-seats {
+    background-color: var(--primary-color);
+}
+.selected-seats-text {
+    text-align: center;
+    height: 3em;
+    border: none;
+    color: #fffc;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.selected-seats-button {
+    margin: 10px;
+    padding: 15px 30px;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.1em;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: #fff;
+    border-radius: 10px;
+    display: block;
+    border: 0px;
+    box-shadow: 0px 0px 14px -7px var(--primary-color);
+    background-image: linear-gradient(45deg, #222222 0%, #383838 51%, var(--primary-color) 100%);
+    cursor: pointer;
+    touch-action: manipulation;
+}
+.selected-seats-button:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+}
+.selected-seats-button:active {
+    transform: scale(0.95);
+}

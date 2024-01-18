@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingWebApplication.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240117135201_AddModelsTodb")]
+    [Migration("20240118153759_AddModelsTodb")]
     partial class AddModelsTodb
     {
         /// <inheritdoc />
@@ -32,7 +32,6 @@ namespace BookingWebApplication.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nchar(45)")
                         .HasColumnName("name")
@@ -82,21 +81,21 @@ namespace BookingWebApplication.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 0,
                             I3D = "Yes",
                             Name = "Village Cinemas Thessaloniki",
                             Seats = 300
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 1,
                             I3D = "No",
                             Name = "Options Cinemas Glyfada",
                             Seats = 200
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 2,
                             I3D = "No",
                             Name = "Άστορ",
                             Seats = 150
@@ -110,7 +109,6 @@ namespace BookingWebApplication.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nchar(45)")
                         .HasColumnName("name")
@@ -130,7 +128,7 @@ namespace BookingWebApplication.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 0,
                             Name = "alex",
                             UserName = "al"
                         });
@@ -210,9 +208,9 @@ namespace BookingWebApplication.Migrations
                     b.HasData(
                         new
                         {
-                            MovieId = 1,
+                            MovieId = 0,
                             MovieName = "The Shawshank Redemption",
-                            ContentAdminId = 1,
+                            ContentAdminId = 0,
                             MovieContent = "Content",
                             MovieDirector = "Frank Darabont",
                             MovieLength = 142,
@@ -221,9 +219,9 @@ namespace BookingWebApplication.Migrations
                         },
                         new
                         {
-                            MovieId = 2,
+                            MovieId = 1,
                             MovieName = "The Godfather",
-                            ContentAdminId = 1,
+                            ContentAdminId = 0,
                             MovieContent = "Content",
                             MovieDirector = "Francis Ford Coppola",
                             MovieLength = 175,
@@ -232,9 +230,9 @@ namespace BookingWebApplication.Migrations
                         },
                         new
                         {
-                            MovieId = 3,
+                            MovieId = 2,
                             MovieName = "The Dark Knight",
-                            ContentAdminId = 1,
+                            ContentAdminId = 0,
                             MovieContent = "Content",
                             MovieDirector = "Christopher Nolan",
                             MovieLength = 152,
@@ -254,6 +252,11 @@ namespace BookingWebApplication.Migrations
                         .HasColumnType("nchar(45)")
                         .HasColumnName("MOVIES_NAME");
 
+                    b.Property<DateTime?>("ShowDateTime")
+                        .HasPrecision(0)
+                        .HasColumnType("datetime2(0)")
+                        .HasColumnName("ShowDateTime");
+
                     b.Property<int?>("CinemasID")
                         .HasColumnType("int");
 
@@ -261,15 +264,11 @@ namespace BookingWebApplication.Migrations
                         .HasColumnType("int")
                         .HasColumnName("CONTENT_ADMIN_ID");
 
-                    b.Property<DateTime?>("ShowDateTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("ShowDateTime");
-
                     b.Property<int>("Id")
                         .HasColumnType("int")
                         .HasColumnName("ID");
 
-                    b.HasKey("MoviesId", "MoviesName", "CinemasID", "ContentAdminId", "ShowDateTime");
+                    b.HasKey("MoviesId", "MoviesName", "ShowDateTime", "CinemasID", "ContentAdminId");
 
                     b.HasIndex("CinemasID");
 
@@ -280,38 +279,38 @@ namespace BookingWebApplication.Migrations
                     b.HasData(
                         new
                         {
-                            MoviesId = 1,
+                            MoviesId = 0,
                             MoviesName = "The Shawshank Redemption",
-                            CinemasID = 1,
-                            ContentAdminId = 1,
-                            ShowDateTime = new DateTime(2024, 1, 22, 15, 52, 1, 121, DateTimeKind.Local).AddTicks(5442),
+                            ShowDateTime = new DateTime(2024, 1, 23, 17, 37, 58, 260, DateTimeKind.Local).AddTicks(9110),
+                            CinemasID = 0,
+                            ContentAdminId = 0,
+                            Id = 0
+                        },
+                        new
+                        {
+                            MoviesId = 0,
+                            MoviesName = "The Shawshank Redemption",
+                            ShowDateTime = new DateTime(2024, 1, 25, 0, 37, 58, 260, DateTimeKind.Local).AddTicks(9119),
+                            CinemasID = 0,
+                            ContentAdminId = 0,
                             Id = 1
                         },
                         new
                         {
-                            MoviesId = 1,
+                            MoviesId = 0,
                             MoviesName = "The Shawshank Redemption",
+                            ShowDateTime = new DateTime(2024, 1, 23, 0, 37, 58, 260, DateTimeKind.Local).AddTicks(9122),
                             CinemasID = 1,
-                            ContentAdminId = 1,
-                            ShowDateTime = new DateTime(2024, 1, 23, 22, 52, 1, 121, DateTimeKind.Local).AddTicks(5450),
-                            Id = 1
-                        },
-                        new
-                        {
-                            MoviesId = 1,
-                            MoviesName = "The Shawshank Redemption",
-                            CinemasID = 2,
-                            ContentAdminId = 1,
-                            ShowDateTime = new DateTime(2024, 1, 21, 22, 52, 1, 121, DateTimeKind.Local).AddTicks(5453),
+                            ContentAdminId = 0,
                             Id = 2
                         },
                         new
                         {
-                            MoviesId = 2,
+                            MoviesId = 1,
                             MoviesName = "The Godfather",
-                            CinemasID = 3,
-                            ContentAdminId = 1,
-                            ShowDateTime = new DateTime(2024, 1, 22, 22, 52, 1, 121, DateTimeKind.Local).AddTicks(5456),
+                            ShowDateTime = new DateTime(2024, 1, 24, 0, 37, 58, 260, DateTimeKind.Local).AddTicks(9124),
+                            CinemasID = 2,
+                            ContentAdminId = 0,
                             Id = 3
                         });
                 });
@@ -331,6 +330,10 @@ namespace BookingWebApplication.Migrations
                         .HasColumnType("int")
                         .HasColumnName("PROVOLES_CINEMAS_ID");
 
+                    b.Property<DateTime>("ProvolesDateTime")
+                        .HasColumnType("datetime2(0)")
+                        .HasColumnName("PROVOLES_Date_Time");
+
                     b.Property<int>("CustomersId")
                         .HasColumnType("int")
                         .HasColumnName("CUSTOMERS_ID");
@@ -339,18 +342,23 @@ namespace BookingWebApplication.Migrations
                         .HasColumnType("int")
                         .HasColumnName("NUMBER_OF_SEATS");
 
-                    b.Property<DateTime?>("PovolesDateTime")
-                        .IsRequired()
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("ProvolesContentAdminId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesCinemasId", "CustomersId");
+                    b.Property<int>("ProvolesId")
+                        .HasColumnType("int")
+                        .HasColumnName("PROVOLES_ID");
+
+                    b.Property<string>("Seats")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Seats");
+
+                    b.HasKey("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesCinemasId", "ProvolesDateTime", "CustomersId");
 
                     b.HasIndex("CustomersId");
 
-                    b.HasIndex("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesCinemasId", "ProvolesContentAdminId", "PovolesDateTime");
+                    b.HasIndex("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesDateTime", "ProvolesCinemasId", "ProvolesContentAdminId");
 
                     b.ToTable("reservations");
                 });
@@ -401,7 +409,7 @@ namespace BookingWebApplication.Migrations
                         new
                         {
                             UserName = "al",
-                            CreateTime = new DateTime(2024, 1, 17, 15, 52, 1, 121, DateTimeKind.Local).AddTicks(5001),
+                            CreateTime = new DateTime(2024, 1, 18, 17, 37, 58, 260, DateTimeKind.Local).AddTicks(8755),
                             Email = "al@testmail.com",
                             Password = "123456",
                             Role = "ContentAdmin",
@@ -490,7 +498,7 @@ namespace BookingWebApplication.Migrations
 
                     b.HasOne("BookingWebApplication.Models.Provoli", "Provoli")
                         .WithMany("Reservations")
-                        .HasForeignKey("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesCinemasId", "ProvolesContentAdminId", "PovolesDateTime")
+                        .HasForeignKey("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesDateTime", "ProvolesCinemasId", "ProvolesContentAdminId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

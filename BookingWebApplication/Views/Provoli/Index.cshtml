@@ -1,5 +1,4 @@
 ﻿@model Tuple<List<BookingWebApplication.Models.Provoli>, BookingWebApplication.Models.Cinema>
-@* @model BookingWebApplication.Models.Provoli *@
 
 <head>
     <link rel="stylesheet" href="~/css/provoles.css" asp-append-version="true" />
@@ -11,6 +10,7 @@
 <div class="provoles-list">
     <table class="provoles-table">
         <tr>
+            <th></th>
             <th>Movie Name</th>
             <th>Date & Time</th>
             <th>Available Seats</th>
@@ -18,35 +18,19 @@
         @foreach (var item in Model.Item1.OrderBy(e => e.ShowDateTime))
         {
             <tr class="provoles-table-row" id="@item.ShowDateTime" onclick="onDateTimeSelected('@item.ShowDateTime')">
+                <td>
+                    <a asp-controller="Reservation" asp-action="Create"
+                       asp-route-cinemasId="@Model.Item2.Id"
+                       asp-route-moviesId="@item.MoviesId"
+                       asp-route-contentAdminsId="@item.ContentAdminId"
+                       asp-route-provolesId="@item.Id">
+                        &nbsp;
+                    </a>
+                </td>
                 <td>@item.MoviesName</td>
                 <td>@item.ShowDateTime</td>
                 <td>@item.Cinema.Seats</td>
             </tr>
         }
     </table>
-</div>
-
-<div class="ticket-view" id="ticketView" hidden>
-    <h1>Tickets</h1>
-
-    <div class="seats">
-        @for (int i = 1; i <= Model.Item2.Seats; i++)
-        {
-            <div class="seat seat-available" id="@i" onclick="onSeatClick(@i)"><span class="seat-text">@i</span></div>
-        }
-    </div>
-
-    <div class="screen-container">
-        <div class="screen">
-            <div class="screen-inner">Screen</div>
-        </div>
-    </div>
-
-    <br>
-    <br>
-
-    <form class="reserve-form" id="reserve-form">
-        <input class="selected-seats selected-seats-text" type="text" id="selected-seats-text" disabled />
-        <button class="selected-seats selected-seats-button" id="selected-seats-button" onclick="onButtonSubmit()" type="button">Reserve</button>
-    </form>
 </div>

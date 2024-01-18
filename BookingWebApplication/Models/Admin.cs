@@ -12,7 +12,7 @@ namespace BookingWebApplication.Models
 
         [Column("name")]
         [StringLength(45)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public string UserName { get; set; }
         [ForeignKey("UserName")]

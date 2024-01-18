@@ -1,4 +1,4 @@
-﻿function onSeatClick(id) {
+﻿/*function onSeatClick(id) {
     const seat = document.getElementById(id);
 
     if (seat.classList.contains("seat-available")) {
@@ -18,9 +18,9 @@
             document.getElementById("selected-seats-text").value += " " + seat.id;
         })
     }
-}
+}*/
 
-function onButtonSubmit() {
+/*function onButtonSubmit() {
     const seats = document.querySelectorAll(".seat-selected");
 
     if (seats.length <= 0) {
@@ -29,9 +29,9 @@ function onButtonSubmit() {
     }
 
     document.getElementById("reserve-form").submit();
-}
+}*/
 
-function onDateTimeSelected(id) {
+/*function onDateTimeSelected(id) {
     const tickeView = document.getElementById("ticketView");
 
     if (tickeView.hidden) {
@@ -46,4 +46,4 @@ function onDateTimeSelected(id) {
     selected.forEach((s) => {
         s.classList.remove("provoles-selected");
     });
-}
+}*/
