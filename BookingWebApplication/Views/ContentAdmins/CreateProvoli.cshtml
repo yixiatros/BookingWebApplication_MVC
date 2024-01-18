@@ -1,0 +1,41 @@
+﻿@model BookingWebApplication.Models.Provoli
+
+@{
+    ViewData["Title"] = "Create Movie Screening";
+}
+
+<h2>Create Movie Screening</h2>
+
+<form asp-action="CreateProvoli" asp-controller="ContentAdmins" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="MoviesName">Movie Name:</label>
+        <input asp-for="MoviesName" class="form-control" />
+        <span asp-validation-for="MoviesName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CinemasID">Cinema:</label>
+        <select asp-for="CinemasID" asp-items="ViewBag.Cinemas" class="form-control"></select>
+        <span asp-validation-for="CinemasID" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ShowDateTime">Show Date and Time:</label>
+        <input asp-for="ShowDateTime" class="form-control" />
+        <span asp-validation-for="ShowDateTime" class="text-danger"></span>
+    </div>
+
+    <input asp-for="ContentAdminId" type="hidden" value="@User.Identity.Name" />
+
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
