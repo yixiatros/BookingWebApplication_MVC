@@ -51,6 +51,9 @@ namespace BookingWebApplication.Controllers
             if (HttpContext.Session.GetString("UserSession") == null)
                 return RedirectToAction("Login", "Account");
 
+            if (!HttpContext.Session.GetString("UserRole").Equals("Customer"))
+                return RedirectToAction("Index", "Home");
+
             if (cinemasId == null || _dbContext.Cinemas == null ||
                 moviesId == null || _dbContext.Movies == null ||
                 contentAdminsId == null || _dbContext.ContentAdmins == null ||

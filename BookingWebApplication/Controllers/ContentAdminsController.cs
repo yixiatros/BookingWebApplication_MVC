@@ -219,5 +219,41 @@ namespace BookingWebApplication.Controllers
             ViewBag.Movies = new SelectList(_context.Movies, "MovieId", "MovieName");
             return View(provoli);
         }
+
+        // GET: ContentAdmins/CreateMovie
+        public async Task<IActionResult> CreateMovie()
+        {
+            if (HttpContext.Session.GetString("UserRole") == null)
+                return RedirectToAction("Index", "ContentAdmins");
+
+            if (!HttpContext.Session.GetString("UserRole").Equals("ContentAdmin"))
+                return RedirectToAction("Index", "ContentAdmins");
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateMovie(Movie movie)
+        {
+            ContentAdmin contentAdmin = await _context.ContentAdmins.FirstOrDefaultAsync(c => c.UserName.Equals(HttpContext.Session.GetString("UserName").ToString()));
+
+            if (contentAdmin == null)
+                return NotFound();
+
+            movie.ContentAdminId = contentAdmin.Id;
+
+            _context.Movies.Add(movie);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Movie");
+
+           /* if (ModelState.IsValid)
+            {
+
+            }
+
+            ViewBag.Error = "Could not add movie. Something went wrong.";
+            return View(movie);*/
+        }
     }
 }
