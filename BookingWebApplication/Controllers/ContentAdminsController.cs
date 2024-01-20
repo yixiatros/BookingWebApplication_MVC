@@ -208,22 +208,8 @@ namespace BookingWebApplication.Controllers
             provoli.CinemasID = cinema.Id;
             provoli.ContentAdminId = contentAdmin.Id;
 
-            System.Diagnostics.Debug.WriteLine(
-                    "\n\n\n\n\n\n\n\n"
-                    + provoli.MoviesName
-                    + "\n"
-                    + provoli.MoviesId
-                    + "\n"
-                    + provoli.ShowDateTime
-                    + "\n"
-                    + provoli.CinemasID
-                    + "\n\n\n\n\n\n\n"
-                );
-
             if (ModelState.IsValid)
             {
-                System.Diagnostics.Debug.WriteLine("\n\n\n\n\n\n\n\n" + "aek1" + "\n\n\n\n\n\n\n");
-
                 _context.Provoles.Add(provoli);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Home");
