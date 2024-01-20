@@ -17,6 +17,8 @@ namespace BookingWebApplication.Controllers
             if (HttpContext.Session.GetString("UserSession") != null)
             {
                 this.ViewBag.MySession = HttpContext.Session.GetString("UserSession").ToString();
+                this.ViewBag.UserName = HttpContext.Session.GetString("UserName").ToString();
+                this.ViewBag.UserRole = HttpContext.Session.GetString("UserRole").ToString();
             }
             return base.View(viewName, model);
         }

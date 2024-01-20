@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using BookingWebApplication.Models;
 using System.Diagnostics;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookingWebApplication.Controllers
 {
@@ -20,6 +21,7 @@ namespace BookingWebApplication.Controllers
             {
                 this.ViewBag.MySession = HttpContext.Session.GetString("UserSession").ToString();
                 this.ViewBag.UserName = HttpContext.Session.GetString("UserName").ToString();
+                this.ViewBag.UserRole = HttpContext.Session.GetString("UserRole").ToString();
             }
             return base.View(viewName, model);
         }
@@ -29,9 +31,24 @@ namespace BookingWebApplication.Controllers
             return View();
         }
 
+        public async Task<IActionResult> History()
+        {
+            if (HttpContext.Session.GetString("UserSession") == null)
+                return RedirectToAction("Login", "Account");
+
+            Customer customer = await _dbContext.Customers.FirstOrDefaultAsync(c => c.UserName == HttpContext.Session.GetString("UserName").ToString());
+
+            if (customer == null)
+                return RedirectToAction("Index", "Home");
+
+            List<Reservation> reservations = await _dbContext.Reservations.Where(r => r.CustomersId == customer.Id).ToListAsync();
+
+            return View(reservations);
+        }
+
         public async Task<IActionResult> Create(int? cinemasId, int? moviesId, int? contentAdminsId, int? provolesId)
         {
-            if (HttpContext.Session.GetString("UserName") == null)
+            if (HttpContext.Session.GetString("UserSession") == null)
                 return RedirectToAction("Login", "Account");
 
             if (cinemasId == null || _dbContext.Cinemas == null ||
@@ -97,16 +114,24 @@ namespace BookingWebApplication.Controllers
             reservation.Seats = Seats;
 
             string[] seatList = reservation.Seats.Split(' ');
-            reservation.NumberOfSeats = seatList.Length;
+            int count = 0;
+            foreach (var seat in seatList)
+            {
+                if (int.TryParse(seat, out int seat_int))
+                {
+                    count++;
+                }
+            }
+            reservation.NumberOfSeats = count;
 
             if (ModelState.IsValid)
             {
                 _dbContext.Add(reservation);
                 await _dbContext.SaveChangesAsync();
-                return RedirectToAction("Index", "Movie");
+                return RedirectToAction("History", "Reservation");
             }
 
-            return RedirectToAction("Index", "Home");
+            return View();
         }
     }
 }

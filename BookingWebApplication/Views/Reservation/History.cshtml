@@ -1,0 +1,27 @@
+﻿@model List<BookingWebApplication.Models.Reservation>
+
+@{
+    ViewData["Title"] = "History";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/reservations.css" asp-append-version="true" />
+</head>
+
+<table class="history-table">
+    <tr>
+        <th>Movie Name</th>
+        <th>Date & Time</th>
+        <th>Seats</th>
+        <th>Number of Seats</th>
+    </tr>
+    @foreach (var item in Model.OrderBy(r => r.ProvolesDateTime))
+    {
+        <tr>
+            <td>@item.ProvolesMoviesName</td>
+            <td>@item.ProvolesDateTime</td>
+            <td>@item.Seats</td>
+            <td>@item.NumberOfSeats</td>
+        </tr>
+    }
+</table>

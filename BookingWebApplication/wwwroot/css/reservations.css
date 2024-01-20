@@ -122,3 +122,14 @@
 .selected-seats-button:active {
     transform: scale(0.95);
 }
+
+.history-table td, .history-table th {
+    border: 2px solid var(--primary-color)
+}
+.history-table th {
+    padding: 1em 0.7em;
+    font-size: 1.2em;
+}
+.history-table td {
+    padding: 0.7em;
+}

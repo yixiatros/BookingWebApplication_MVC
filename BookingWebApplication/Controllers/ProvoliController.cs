@@ -17,6 +17,8 @@ namespace BookingWebApplication.Controllers
             if (HttpContext.Session.GetString("UserSession") != null)
             {
                 this.ViewBag.MySession = HttpContext.Session.GetString("UserSession").ToString();
+                this.ViewBag.UserName = HttpContext.Session.GetString("UserName").ToString();
+                this.ViewBag.UserRole = HttpContext.Session.GetString("UserRole").ToString();
             }
             return base.View(viewName, model);
         }
@@ -26,7 +28,7 @@ namespace BookingWebApplication.Controllers
             if (cinemasId == null || _dbContext.Cinemas == null ||
                 moviesId == null || _dbContext.Movies == null ||
                 id == null || _dbContext.ContentAdmins == null)
-                return NotFound();
+                return Notfound();
 
             var movie = await _dbContext.Movies
                 .FirstOrDefaultAsync(m => m.MovieId == moviesId);
@@ -35,15 +37,20 @@ namespace BookingWebApplication.Controllers
                 .FirstOrDefaultAsync(c => c.Id == cinemasId);
 
             if (movie == null || cinema == null)
-                return NotFound();
+                return Notfound();
 
             List<Provoli> provoles = await _dbContext.Provoles.Where(p => p.CinemasID == cinemasId && p.MoviesId == moviesId && p.MoviesName.Equals(movie.MovieName) && p.ContentAdminId == id).ToListAsync();
 
             if (!provoles.Any())
-                return NotFound();
+                return RedirectToAction("Notfound", "Provoli");
 
             Tuple<List<Provoli>, Cinema> tuple = new Tuple<List<Provoli>, Cinema>(provoles, cinema);
             return View(tuple);
+        }
+
+        public IActionResult Notfound()
+        {
+            return View();
         }
     }
 }

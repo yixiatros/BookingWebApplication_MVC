@@ -18,6 +18,17 @@ namespace BookingWebApplication.Controllers
             _context = context;
         }
 
+        public override ViewResult View(string? viewName, object? model)
+        {
+            if (HttpContext.Session.GetString("UserSession") != null)
+            {
+                this.ViewBag.MySession = HttpContext.Session.GetString("UserSession").ToString();
+                this.ViewBag.UserName = HttpContext.Session.GetString("UserName").ToString();
+                this.ViewBag.UserRole = HttpContext.Session.GetString("UserRole").ToString();
+            }
+            return base.View(viewName, model);
+        }
+
         // GET: Account
         public async Task<IActionResult> Index()
         {
@@ -191,7 +202,7 @@ namespace BookingWebApplication.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(User user)
+        public async Task<IActionResult> Login(User user)
         {
             var userFromDb = _context.Users.FirstOrDefault(u => u.UserName == user.UserName && u.Password == user.Password);
 
@@ -200,6 +211,20 @@ namespace BookingWebApplication.Controllers
                 // Successful login, redirect to a secure area
                 HttpContext.Session.SetString("UserSession", userFromDb.Email);
                 HttpContext.Session.SetString("UserName", user.UserName);
+
+                Admin admin = await _context.Admins
+                    .FirstOrDefaultAsync(a => a.UserName.Equals(user.UserName));
+
+                ContentAdmin contentAdmin = await _context.ContentAdmins
+                    .FirstOrDefaultAsync(c => c.UserName.Equals(user.UserName));
+
+                if (admin != null)
+                    HttpContext.Session.SetString("UserRole", "Admin");
+                else if (contentAdmin != null)
+                    HttpContext.Session.SetString("UserRole", "ContentAdmin");
+                else
+                    HttpContext.Session.SetString("UserRole", "Customer");
+
                 return RedirectToAction("Index", "Home");
             }
             else

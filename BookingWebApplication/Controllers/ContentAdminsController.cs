@@ -18,6 +18,17 @@ namespace BookingWebApplication.Controllers
             _context = context;
         }
 
+        public override ViewResult View(string? viewName, object? model)
+        {
+            if (HttpContext.Session.GetString("UserSession") != null)
+            {
+                this.ViewBag.MySession = HttpContext.Session.GetString("UserSession").ToString();
+                this.ViewBag.UserName = HttpContext.Session.GetString("UserName").ToString();
+                this.ViewBag.UserRole = HttpContext.Session.GetString("UserRole").ToString();
+            }
+            return base.View(viewName, model);
+        }
+
         // GET: ContentAdmins
         public async Task<IActionResult> Index()
         {
@@ -161,9 +172,16 @@ namespace BookingWebApplication.Controllers
         }
 
         // GET: ContentAdmins/CreateProvoli
-        public IActionResult CreateProvoli()
+        public async Task<IActionResult> CreateProvoli()
         {
+            if (HttpContext.Session.GetString("UserRole") == null)
+                return RedirectToAction("Index", "ContentAdmins");
+
+            if (!HttpContext.Session.GetString("UserRole").Equals("ContentAdmin"))
+                return RedirectToAction("Index", "ContentAdmins");
+
             ViewBag.Cinemas = new SelectList(_context.Cinemas, "Id", "Name");
+            ViewBag.Movies = new SelectList(_context.Movies, "MovieId", "MovieName");
             return View();
         }
 
@@ -171,28 +189,48 @@ namespace BookingWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProvoli(Provoli provoli)
         {
+            int.TryParse(provoli.MoviesName, out int moviesId);
+            if (moviesId == null)
+                return NotFound();
+
+            Movie movie = await _context.Movies.FirstOrDefaultAsync(m => m.MovieId == moviesId);
+            Cinema cinema = await _context.Cinemas.FindAsync(provoli.CinemasID);
+            ContentAdmin contentAdmin = await _context.ContentAdmins.FirstOrDefaultAsync(c => c.UserName.Equals(HttpContext.Session.GetString("UserName").ToString()));
+
+            if (movie == null || cinema == null || contentAdmin == null)
+            {
+                ModelState.AddModelError("", "Invalid movie or cinema.");
+                return NotFound();
+            }
+
+            provoli.MoviesName = movie.MovieName;
+            provoli.MoviesId = movie.MovieId;
+            provoli.CinemasID = cinema.Id;
+            provoli.ContentAdminId = contentAdmin.Id;
+
+            System.Diagnostics.Debug.WriteLine(
+                    "\n\n\n\n\n\n\n\n"
+                    + provoli.MoviesName
+                    + "\n"
+                    + provoli.MoviesId
+                    + "\n"
+                    + provoli.ShowDateTime
+                    + "\n"
+                    + provoli.CinemasID
+                    + "\n\n\n\n\n\n\n"
+                );
+
             if (ModelState.IsValid)
             {
-                var movie = await _context.Movies.FirstOrDefaultAsync(m => m.MovieName == provoli.MoviesName);
-                var cinema = await _context.Cinemas.FindAsync(provoli.CinemasID);
+                System.Diagnostics.Debug.WriteLine("\n\n\n\n\n\n\n\n" + "aek1" + "\n\n\n\n\n\n\n");
 
-                if (movie != null && cinema != null)
-                {
-                    provoli.Movie = movie;
-                    provoli.Cinema = cinema;
-
-                    _context.Provoles.Add(provoli);
-                    await _context.SaveChangesAsync();
-
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Invalid movie or cinema.");
-                }
+                _context.Provoles.Add(provoli);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.Cinemas = new SelectList(_context.Cinemas, "Id", "Name");
+            ViewBag.Movies = new SelectList(_context.Movies, "MovieId", "MovieName");
             return View(provoli);
         }
     }

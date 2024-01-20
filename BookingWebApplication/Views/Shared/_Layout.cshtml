@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - BookingWebApplication</title>
+    <title>@ViewData["Title"] - VelvetScreen</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BookingWebApplication.styles.css" asp-append-version="true" />
@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Booking Web Application</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">VelvetScreen</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarShared" aria-controls="navbarShared"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -30,6 +30,15 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Cinema" asp-action="Index">Cinemas</a>
                         </li>
+                        @{
+                            if (ViewBag.UserRole != null)
+                                if (ViewBag.UserRole.Equals("ContentAdmin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-controller="ContentAdmins" asp-action="CreateProvoli">Create Screening</a>
+                                    </li>
+                                }
+                        }
                         <li class="nav-item dropdown ms-auto mb-lg-8">
                             @{
                                 if (ViewBag.MySession != null)

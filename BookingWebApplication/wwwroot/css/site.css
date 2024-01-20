@@ -49,3 +49,28 @@ footer {
     background-color: var(--primary-color);
     color: var(--text-color);
 }
+
+.home-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #282828;
+    border-radius: 1em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-top: 2px solid #5c636a;
+    border-bottom: 2px solid #5c636a;
+}
+.home-container h1, .home-container h2 {
+    color: #fff;
+    text-align: center;
+}
+.home-container ul,.home-container ol {
+    color: #fff;
+}
+.home-container p {
+    color: #fff;
+    text-align: justify;
+}
+.home-container div {
+    margin-top: 1em;
+}
