@@ -9,7 +9,11 @@
 <form asp-action="EditProvoli" asp-controller="ContentAdmin" method="post">
     @Html.AntiForgeryToken()
 
-    <input asp-for="Id" type="hidden" />
+    <input asp-for="MoviesId" type="hidden" />
+    <input asp-for="MoviesName" type="hidden" />
+    <input asp-for="CinemasID" type="hidden" />
+    <input asp-for="ShowDateTime" type="hidden" />
+    <input asp-for="ContentAdminId" type="hidden" />
 
     <div class="form-group">
         <label asp-for="MoviesName">Movie Name:</label>

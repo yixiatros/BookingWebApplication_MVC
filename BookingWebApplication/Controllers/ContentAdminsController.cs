@@ -223,24 +223,32 @@ namespace BookingWebApplication.Controllers
         // ContentAdminsController.cs
 
         [HttpGet]
-        public IActionResult EditProvoli(int id)
+        public IActionResult EditProvoli(int moviesId, string moviesName, int cinemasId, DateTime showDateTime, int contentAdminId)
         {
-            var provoli = _context.Provoles.Find(id);
+            var provoli = _context.Provoles
+                .FirstOrDefault(p => p.MoviesId == moviesId
+                                     && p.MoviesName == moviesName
+                                     && p.CinemasID == cinemasId
+                                     && p.ShowDateTime == showDateTime
+                                     && p.ContentAdminId == contentAdminId);
 
             if (provoli == null)
             {
                 return NotFound();
             }
 
-            ViewBag.Cinemas = new SelectList(_context.Cinemas, "Id", "Name");
             return View(provoli);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditProvoli(int id, Provoli provoli)
+        public IActionResult EditProvoli(int moviesId, string moviesName, int cinemasId, DateTime showDateTime, int contentAdminId, Provoli provoli)
         {
-            if (id != provoli.Id)
+            if (moviesId != provoli.MoviesId
+                || moviesName != provoli.MoviesName
+                || cinemasId != provoli.CinemasID
+                || showDateTime != provoli.ShowDateTime
+                || contentAdminId != provoli.ContentAdminId)
             {
                 return NotFound();
             }
