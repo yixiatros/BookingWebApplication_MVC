@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookingWebApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class AddModelsTodb : Migration
+    public partial class provoli : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -202,7 +202,7 @@ namespace BookingWebApplication.Migrations
             migrationBuilder.InsertData(
                 table: "users",
                 columns: new[] { "user_name", "create_time", "email", "password", "role", "salt" },
-                values: new object[] { "al", new DateTime(2024, 1, 18, 17, 37, 58, 260, DateTimeKind.Local).AddTicks(8755), "al@testmail.com", "123456", "ContentAdmin", "123" });
+                values: new object[] { "al", new DateTime(2024, 1, 20, 12, 57, 48, 360, DateTimeKind.Local).AddTicks(7265), "al@testmail.com", "123456", "ContentAdmin", "123" });
 
             migrationBuilder.InsertData(
                 table: "content_admins",
@@ -224,10 +224,10 @@ namespace BookingWebApplication.Migrations
                 columns: new[] { "CinemasID", "CONTENT_ADMIN_ID", "MOVIES_ID", "MOVIES_NAME", "ShowDateTime", "ID" },
                 values: new object[,]
                 {
-                    { 1, 0, 0, "The Shawshank Redemption", new DateTime(2024, 1, 23, 0, 37, 58, 260, DateTimeKind.Local).AddTicks(9122), 2 },
-                    { 0, 0, 0, "The Shawshank Redemption", new DateTime(2024, 1, 23, 17, 37, 58, 260, DateTimeKind.Local).AddTicks(9110), 0 },
-                    { 0, 0, 0, "The Shawshank Redemption", new DateTime(2024, 1, 25, 0, 37, 58, 260, DateTimeKind.Local).AddTicks(9119), 1 },
-                    { 2, 0, 1, "The Godfather", new DateTime(2024, 1, 24, 0, 37, 58, 260, DateTimeKind.Local).AddTicks(9124), 3 }
+                    { 1, 0, 0, "The Shawshank Redemption", new DateTime(2024, 1, 24, 19, 57, 48, 360, DateTimeKind.Local).AddTicks(7522), 2 },
+                    { 0, 0, 0, "The Shawshank Redemption", new DateTime(2024, 1, 25, 12, 57, 48, 360, DateTimeKind.Local).AddTicks(7515), 0 },
+                    { 0, 0, 0, "The Shawshank Redemption", new DateTime(2024, 1, 26, 19, 57, 48, 360, DateTimeKind.Local).AddTicks(7520), 1 },
+                    { 2, 0, 1, "The Godfather", new DateTime(2024, 1, 25, 19, 57, 48, 360, DateTimeKind.Local).AddTicks(7525), 3 }
                 });
 
             migrationBuilder.CreateIndex(

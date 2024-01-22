@@ -220,6 +220,44 @@ namespace BookingWebApplication.Controllers
             return View(provoli);
         }
 
+        // ContentAdminsController.cs
+
+        [HttpGet]
+        public IActionResult EditProvoli(int id)
+        {
+            var provoli = _context.Provoles.Find(id);
+
+            if (provoli == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Cinemas = new SelectList(_context.Cinemas, "Id", "Name");
+            return View(provoli);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditProvoli(int id, Provoli provoli)
+        {
+            if (id != provoli.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.Entry(provoli).State = EntityState.Modified;
+                _context.SaveChanges();
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Cinemas = new SelectList(_context.Cinemas, "Id", "Name");
+            return View(provoli);
+        }
+
+
         // GET: ContentAdmins/CreateMovie
         public async Task<IActionResult> CreateMovie()
         {

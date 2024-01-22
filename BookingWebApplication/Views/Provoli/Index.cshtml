@@ -30,7 +30,20 @@
                 <td>@item.MoviesName</td>
                 <td>@item.ShowDateTime</td>
                 <td>@item.Cinema.Seats</td>
+                <td>
+                    @* @if (User.IsInRole("ContentAdmin"))
+                    { *@
+                    <a asp-controller="ContentAdmin" asp-action="EditProvoli" asp-route-id="@item.Id"
+                        style="color: white; margin-left: 10px; margin-top: 10px;font-size: 20px;">Edit</a>
+                    @* }
+                    else
+                    {
+                        <span style="color: white; visibility: hidden;">Edit</span>
+                    } *@
+                </td>
             </tr>
         }
     </table>
 </div>
+
+

@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingWebApplication.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240118153759_AddModelsTodb")]
-    partial class AddModelsTodb
+    [Migration("20240120105748_provoli")]
+    partial class provoli
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -281,7 +281,7 @@ namespace BookingWebApplication.Migrations
                         {
                             MoviesId = 0,
                             MoviesName = "The Shawshank Redemption",
-                            ShowDateTime = new DateTime(2024, 1, 23, 17, 37, 58, 260, DateTimeKind.Local).AddTicks(9110),
+                            ShowDateTime = new DateTime(2024, 1, 25, 12, 57, 48, 360, DateTimeKind.Local).AddTicks(7515),
                             CinemasID = 0,
                             ContentAdminId = 0,
                             Id = 0
@@ -290,7 +290,7 @@ namespace BookingWebApplication.Migrations
                         {
                             MoviesId = 0,
                             MoviesName = "The Shawshank Redemption",
-                            ShowDateTime = new DateTime(2024, 1, 25, 0, 37, 58, 260, DateTimeKind.Local).AddTicks(9119),
+                            ShowDateTime = new DateTime(2024, 1, 26, 19, 57, 48, 360, DateTimeKind.Local).AddTicks(7520),
                             CinemasID = 0,
                             ContentAdminId = 0,
                             Id = 1
@@ -299,7 +299,7 @@ namespace BookingWebApplication.Migrations
                         {
                             MoviesId = 0,
                             MoviesName = "The Shawshank Redemption",
-                            ShowDateTime = new DateTime(2024, 1, 23, 0, 37, 58, 260, DateTimeKind.Local).AddTicks(9122),
+                            ShowDateTime = new DateTime(2024, 1, 24, 19, 57, 48, 360, DateTimeKind.Local).AddTicks(7522),
                             CinemasID = 1,
                             ContentAdminId = 0,
                             Id = 2
@@ -308,7 +308,7 @@ namespace BookingWebApplication.Migrations
                         {
                             MoviesId = 1,
                             MoviesName = "The Godfather",
-                            ShowDateTime = new DateTime(2024, 1, 24, 0, 37, 58, 260, DateTimeKind.Local).AddTicks(9124),
+                            ShowDateTime = new DateTime(2024, 1, 25, 19, 57, 48, 360, DateTimeKind.Local).AddTicks(7525),
                             CinemasID = 2,
                             ContentAdminId = 0,
                             Id = 3
@@ -409,7 +409,7 @@ namespace BookingWebApplication.Migrations
                         new
                         {
                             UserName = "al",
-                            CreateTime = new DateTime(2024, 1, 18, 17, 37, 58, 260, DateTimeKind.Local).AddTicks(8755),
+                            CreateTime = new DateTime(2024, 1, 20, 12, 57, 48, 360, DateTimeKind.Local).AddTicks(7265),
                             Email = "al@testmail.com",
                             Password = "123456",
                             Role = "ContentAdmin",
