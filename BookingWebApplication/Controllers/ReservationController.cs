@@ -81,7 +81,6 @@ namespace BookingWebApplication.Controllers
             return View(tuple);
         }
 
-        //[Bind("ProvolesMoviesId","ProvolesCinemasId","ProvolesDateTime","ProvolesContentAdminId","Seats")] Reservation reservation
         [RequestFormLimits(ValueLengthLimit = 50000000, MultipartBodyLengthLimit = 50000000)]
         [HttpPost]
         public async Task<IActionResult> Create(

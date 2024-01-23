@@ -32,9 +32,9 @@
                 <td>@item.ShowDateTime</td>
                 <td>@item.Cinema.Seats</td>
                 <td>
-                    <a asp-controller="ContentAdmin" asp-action="EditProvoli"
+                    <a asp-controller="ContentAdmins" asp-action="EditProvoli"
                        asp-route-moviesId="@item.MoviesId"
-                       asp-route-moviesName="@item.MoviesName"
+                       asp-route-moviesName='@item.MoviesName'
                        asp-route-cinemasId="@item.CinemasID"
                        asp-route-showDateTime="@item.ShowDateTime"
                        asp-route-contentAdminId="@item.ContentAdminId"

@@ -28,10 +28,10 @@ namespace BookingWebApplication.Models
         [InverseProperty("Provoles")]
         public virtual Cinema? Cinema { get; set; } = null!;
 
+        [Key]
         [Column("ID")]
         public int Id { get; set; }
 
-        [Key]
         [Column("ShowDateTime")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]

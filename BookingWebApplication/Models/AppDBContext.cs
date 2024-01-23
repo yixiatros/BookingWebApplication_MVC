@@ -98,7 +98,7 @@ public partial class AppDBContext : DbContext
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
-            entity.HasKey(e => new { e.MoviesId, e.MoviesName, e.ShowDateTime, e.CinemasID, e.ContentAdminId });
+            entity.HasKey(e => new { e.MoviesId, e.MoviesName, e.Id, e.CinemasID, e.ContentAdminId });
         });
 
         modelBuilder.Entity<Reservation>(entity =>
@@ -106,13 +106,13 @@ public partial class AppDBContext : DbContext
             entity
             .HasOne(e => e.Provoli)
             .WithMany(e => e.Reservations)
-            .HasForeignKey(e => new {e.ProvolesMoviesId, e.ProvolesMoviesName, e.ProvolesDateTime, e.ProvolesCinemasId, e.ProvolesContentAdminId})
+            .HasForeignKey(e => new {e.ProvolesMoviesId, e.ProvolesMoviesName, e.ProvolesId, e.ProvolesCinemasId, e.ProvolesContentAdminId})
             .IsRequired()
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.ClientNoAction);
 
             entity.HasOne(e => e.Customer).WithMany(e => e.Reservations).HasForeignKey(e => e.CustomersId);
 
-            entity.HasKey(e => new { e.ProvolesMoviesId, e.ProvolesMoviesName, e.ProvolesCinemasId, e.ProvolesDateTime, e.CustomersId });
+            entity.HasKey(e => new { e.ProvolesMoviesId, e.ProvolesMoviesName, e.ProvolesCinemasId, e.ProvolesId, e.CustomersId });
         });
 
 
