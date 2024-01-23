@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BookingWebApplication.Models;
+using Mono.TextTemplating;
+using System.Globalization;
 
 namespace BookingWebApplication.Controllers
 {
@@ -58,7 +60,7 @@ namespace BookingWebApplication.Controllers
         // GET: ContentAdmins/Create
         public IActionResult Create()
         {
-            ViewData["UserName"] = new SelectList(_context.Users, "UserName", "UserName");
+            ViewData["UserName"] = new SelectList(_context.Users.Where(u => u.ContentAdmin == null), "UserName", "UserName");
             return View();
         }
 
@@ -67,16 +69,17 @@ namespace BookingWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,UserName")] ContentAdmin contentAdmin)
+        public async Task<IActionResult> Create([Bind("Name, UserName")] ContentAdmin contentAdmin)
         {
-            if (ModelState.IsValid)
+            if (contentAdmin == null || contentAdmin.Name == null || contentAdmin.UserName == null)
             {
-                _context.Add(contentAdmin);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewData["UserName"] = new SelectList(_context.Users.Where(u => u.ContentAdmin == null), "UserName", "UserName");
+                return View(contentAdmin);
             }
-            ViewData["UserName"] = new SelectList(_context.Users, "UserName", "UserName", contentAdmin.UserName);
-            return View(contentAdmin);
+
+            _context.Add(contentAdmin);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ContentAdmins/Edit/5
@@ -222,14 +225,24 @@ namespace BookingWebApplication.Controllers
 
         // ContentAdminsController.cs
 
+        // GET: ContentAdmins/Provoli
         [HttpGet]
-        public IActionResult EditProvoli(int moviesId, string moviesName, int cinemasId, DateTime showDateTime, int contentAdminId)
+        public async Task<IActionResult> EditProvoli(int moviesId, string moviesName, int cinemasId, string showDateTime, int contentAdminId)
         {
-            var provoli = _context.Provoles
-                .FirstOrDefault(p => p.MoviesId == moviesId
-                                     && p.MoviesName == moviesName
+            if (moviesId == null || moviesName == null || cinemasId == null || showDateTime == null || contentAdminId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            moviesName = moviesName.Trim();
+
+            DateTime enteredDate = DateTime.Parse(showDateTime);
+
+            var provoli = await _context.Provoles
+                .FirstOrDefaultAsync(p => p.MoviesId == moviesId
+                                     && p.MoviesName.Equals(moviesName)
                                      && p.CinemasID == cinemasId
-                                     && p.ShowDateTime == showDateTime
+                                     && p.ShowDateTime == enteredDate
                                      && p.ContentAdminId == contentAdminId);
 
             if (provoli == null)
@@ -242,9 +255,10 @@ namespace BookingWebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditProvoli(int moviesId, string moviesName, int cinemasId, DateTime showDateTime, int contentAdminId, Provoli provoli)
+        public async Task<IActionResult> EditProvoli(int id, int moviesId, string moviesName, int cinemasId, DateTime showDateTime, int contentAdminId, Provoli provoli)
         {
-            if (moviesId != provoli.MoviesId
+            if ( id != provoli.Id
+                || moviesId != provoli.MoviesId
                 || moviesName != provoli.MoviesName
                 || cinemasId != provoli.CinemasID
                 || showDateTime != provoli.ShowDateTime
@@ -264,7 +278,6 @@ namespace BookingWebApplication.Controllers
             ViewBag.Cinemas = new SelectList(_context.Cinemas, "Id", "Name");
             return View(provoli);
         }
-
 
         // GET: ContentAdmins/CreateMovie
         public async Task<IActionResult> CreateMovie()

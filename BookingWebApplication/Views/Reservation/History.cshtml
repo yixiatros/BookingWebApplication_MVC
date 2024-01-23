@@ -1,4 +1,4 @@
-﻿@model List<BookingWebApplication.Models.Reservation>
+﻿@model Tuple<List<Reservation>, List<Provoli>>
 
 @{
     ViewData["Title"] = "History";
@@ -15,11 +15,11 @@
         <th>Seats</th>
         <th>Number of Seats</th>
     </tr>
-    @foreach (var item in Model.OrderBy(r => r.ProvolesDateTime))
+    @foreach (var item in Model.Item1.OrderBy(r => r.Provoli.ShowDateTime))
     {
         <tr>
             <td>@item.ProvolesMoviesName</td>
-            <td>@item.ProvolesDateTime</td>
+            <td>@item.Provoli.ShowDateTime</td>
             <td>@item.Seats</td>
             <td>@item.NumberOfSeats</td>
         </tr>

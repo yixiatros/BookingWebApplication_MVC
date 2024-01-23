@@ -42,10 +42,13 @@ namespace BookingWebApplication.Controllers
                 return RedirectToAction("Index", "Home");
 
             List<Reservation> reservations = await _dbContext.Reservations.Where(r => r.CustomersId == customer.Id).ToListAsync();
+            List<Provoli> provoles = await _dbContext.Provoles.ToListAsync();
 
-            return View(reservations);
+            Tuple<List<Reservation>, List<Provoli>> tuple = new Tuple<List<Reservation>, List<Provoli>>(reservations, provoles);
+            return View(tuple);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Create(int? cinemasId, int? moviesId, int? contentAdminsId, int? provolesId)
         {
             if (HttpContext.Session.GetString("UserSession") == null)
@@ -74,45 +77,51 @@ namespace BookingWebApplication.Controllers
 
             List<Reservation> reservations = new List<Reservation>();
             reservations = await _dbContext.Reservations
-                .Where(r => r.ProvolesMoviesId == moviesId && r.ProvolesMoviesName.Equals(movie.MovieName) && r.ProvolesContentAdminId == contentAdminsId && r.ProvolesDateTime == provoli.ShowDateTime)
+                .Where(r => r.ProvolesMoviesId == moviesId && r.ProvolesMoviesName.Equals(movie.MovieName) && r.ProvolesContentAdminId == contentAdminsId && r.ProvolesId == provoli.Id)
                 .ToListAsync();
 
             Tuple<Provoli, Movie, Cinema, List<Reservation>> tuple = new Tuple<Provoli, Movie, Cinema, List<Reservation>>(provoli, movie, cinema, reservations);
             return View(tuple);
         }
 
-        //[Bind("ProvolesMoviesId","ProvolesCinemasId","ProvolesDateTime","ProvolesContentAdminId","Seats")] Reservation reservation
         [RequestFormLimits(ValueLengthLimit = 50000000, MultipartBodyLengthLimit = 50000000)]
         [HttpPost]
         public async Task<IActionResult> Create(
+            int ProvolesId,
             int ProvolesMoviesId,
             string ProvolesMoviesName,
             int ProvolesCinemasId,
-            DateTime ProvolesDateTime,
+            int ProvolesContentAdminId,
             string Seats)
         {
-            if (ProvolesMoviesId == null || ProvolesMoviesName == null || ProvolesCinemasId == null || ProvolesDateTime == null || Seats == null)
+            if (ProvolesId == null
+                || ProvolesMoviesId == null
+                || ProvolesMoviesName == null
+                || ProvolesCinemasId == null
+                || ProvolesContentAdminId == null
+                || Seats == null)
             {
                 return NotFound();
             }
 
-            Customer customer = await _dbContext.Customers.FirstOrDefaultAsync(c => c.UserName == HttpContext.Session.GetString("UserName").ToString());
+            var customer = await _dbContext.Customers
+                .FirstOrDefaultAsync(c => c.UserName == HttpContext.Session.GetString("UserName").ToString());
 
             if (customer == null)
                 return NotFound();
 
+            var provoli = await _dbContext.Provoles
+                .FirstOrDefaultAsync(p => p.Id ==  ProvolesId);
 
-            DateTime dateTime;
-            dateTime = new DateTime(
-                ProvolesDateTime.Ticks - (ProvolesDateTime.Ticks % TimeSpan.TicksPerSecond),
-                ProvolesDateTime.Kind
-            );
+            if (provoli == null)
+                return NotFound();
 
             Reservation reservation = new Reservation();
+            reservation.ProvolesId = ProvolesId;
             reservation.ProvolesMoviesId = ProvolesMoviesId;
             reservation.ProvolesMoviesName = ProvolesMoviesName;
-            reservation.ProvolesDateTime = dateTime;
             reservation.ProvolesCinemasId = ProvolesCinemasId;
+            reservation.ProvolesContentAdminId = ProvolesContentAdminId;
             reservation.CustomersId = customer.Id;
             reservation.Seats = Seats;
 
@@ -126,6 +135,20 @@ namespace BookingWebApplication.Controllers
                 }
             }
             reservation.NumberOfSeats = count;
+
+            System.Diagnostics.Debug.WriteLine(
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n"
+                + reservation.ProvolesMoviesId
+                + "\n"
+                + reservation.ProvolesMoviesName
+                + "\n"
+                + reservation.ProvolesCinemasId
+                + "\n"
+                + reservation.ProvolesId
+                + "\n"
+                + reservation.CustomersId
+                + "\n\n\n\n\n\n\n\n\n\n\n\n\n"
+                );
 
             if (ModelState.IsValid)
             {
