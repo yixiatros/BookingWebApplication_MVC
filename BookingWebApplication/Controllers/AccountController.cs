@@ -32,12 +32,18 @@ namespace BookingWebApplication.Controllers
         // GET: Account
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("Admin"))
+                return RedirectToAction("Index", "Home");
+
             return View(await _context.Users.ToListAsync());
         }
 
         // GET: Account/Details/5
         public async Task<IActionResult> Details(string id)
         {
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("Admin"))
+                return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return NotFound();
@@ -56,6 +62,9 @@ namespace BookingWebApplication.Controllers
         // GET: Account/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("Admin"))
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
 
@@ -111,6 +120,9 @@ namespace BookingWebApplication.Controllers
         // GET: Account/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("Admin"))
+                return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return NotFound();
@@ -163,6 +175,9 @@ namespace BookingWebApplication.Controllers
         // GET: Account/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("Admin"))
+                return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return NotFound();

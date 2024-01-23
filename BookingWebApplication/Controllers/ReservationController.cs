@@ -75,6 +75,21 @@ namespace BookingWebApplication.Controllers
             var provoli = await _dbContext.Provoles
                 .FirstOrDefaultAsync(p => p.CinemasID == cinemasId && p.MoviesId == moviesId && p.MoviesName.Equals(movie.MovieName) && p.ContentAdminId == contentAdminsId && p.Id == provolesId);
 
+            var customer = await _dbContext.Customers
+                .FirstOrDefaultAsync(c => c.UserName == HttpContext.Session.GetString("UserName").ToString());
+            var hasAlreadyReservation = await _dbContext.Reservations
+                .FirstOrDefaultAsync(r => r.ProvolesMoviesId == moviesId
+                && r.ProvolesMoviesName.Equals(movie.MovieName)
+                && r.ProvolesContentAdminId == contentAdminsId
+                && r.ProvolesId == provoli.Id
+                && r.CustomersId == customer.Id
+                );
+            if (hasAlreadyReservation != null)
+            {
+                ViewBag.Error = "You already have made a reservation for this screening/projection.";
+                return RedirectToAction("Index", "Home");
+            }
+
             List<Reservation> reservations = new List<Reservation>();
             reservations = await _dbContext.Reservations
                 .Where(r => r.ProvolesMoviesId == moviesId && r.ProvolesMoviesName.Equals(movie.MovieName) && r.ProvolesContentAdminId == contentAdminsId && r.ProvolesId == provoli.Id)
@@ -135,20 +150,6 @@ namespace BookingWebApplication.Controllers
                 }
             }
             reservation.NumberOfSeats = count;
-
-            System.Diagnostics.Debug.WriteLine(
-                "\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                + reservation.ProvolesMoviesId
-                + "\n"
-                + reservation.ProvolesMoviesName
-                + "\n"
-                + reservation.ProvolesCinemasId
-                + "\n"
-                + reservation.ProvolesId
-                + "\n"
-                + reservation.CustomersId
-                + "\n\n\n\n\n\n\n\n\n\n\n\n\n"
-                );
 
             if (ModelState.IsValid)
             {

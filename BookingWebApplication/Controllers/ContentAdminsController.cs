@@ -25,7 +25,6 @@ namespace BookingWebApplication.Controllers
             if (HttpContext.Session.GetString("UserSession") != null)
             {
                 this.ViewBag.MySession = HttpContext.Session.GetString("UserSession").ToString();
-                this.ViewBag.UserName = HttpContext.Session.GetString("UserName").ToString();
                 this.ViewBag.UserRole = HttpContext.Session.GetString("UserRole").ToString();
             }
             return base.View(viewName, model);
@@ -34,6 +33,9 @@ namespace BookingWebApplication.Controllers
         // GET: ContentAdmins
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("Admin"))
+                return RedirectToAction("Index", "Home");
+
             var appDBContext = _context.ContentAdmins.Include(c => c.User);
             return View(await appDBContext.ToListAsync());
         }
@@ -41,6 +43,9 @@ namespace BookingWebApplication.Controllers
         // GET: ContentAdmins/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("Admin"))
+                return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return NotFound();
@@ -60,7 +65,10 @@ namespace BookingWebApplication.Controllers
         // GET: ContentAdmins/Create
         public IActionResult Create()
         {
-            ViewData["UserName"] = new SelectList(_context.Users.Where(u => u.ContentAdmin == null), "UserName", "UserName");
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("Admin"))
+                return RedirectToAction("Index", "Home");
+
+            ViewData["UserName"] = new SelectList(_context.Users.Where(u => u.ContentAdmin == null && u.Admin == null && u.Customer == null), "UserName", "UserName");
             return View();
         }
 
@@ -73,7 +81,7 @@ namespace BookingWebApplication.Controllers
         {
             if (contentAdmin == null || contentAdmin.Name == null || contentAdmin.UserName == null)
             {
-                ViewData["UserName"] = new SelectList(_context.Users.Where(u => u.ContentAdmin == null), "UserName", "UserName");
+                ViewData["UserName"] = new SelectList(_context.Users.Where(u => u.ContentAdmin == null && u.Admin == null && u.Customer == null), "UserName", "UserName");
                 return View(contentAdmin);
             }
 
@@ -85,6 +93,9 @@ namespace BookingWebApplication.Controllers
         // GET: ContentAdmins/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("Admin"))
+                return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return NotFound();
@@ -138,6 +149,9 @@ namespace BookingWebApplication.Controllers
         // GET: ContentAdmins/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("Admin"))
+                return RedirectToAction("Index", "Home");
+
             if (id == null)
             {
                 return NotFound();
@@ -177,6 +191,9 @@ namespace BookingWebApplication.Controllers
         // GET: ContentAdmins/CreateProvoli
         public async Task<IActionResult> CreateProvoli()
         {
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("ContentAdmin"))
+                return RedirectToAction("Index", "Home");
+
             if (HttpContext.Session.GetString("UserRole") == null)
                 return RedirectToAction("Index", "ContentAdmins");
 
@@ -229,6 +246,9 @@ namespace BookingWebApplication.Controllers
         [HttpGet]
         public async Task<IActionResult> EditProvoli(int moviesId, string moviesName, int cinemasId, string showDateTime, int contentAdminId)
         {
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("ContentAdmin"))
+                return RedirectToAction("Index", "Home");
+
             if (moviesId == null || moviesName == null || cinemasId == null || showDateTime == null || contentAdminId == null)
             {
                 return RedirectToAction("Index", "Home");
@@ -282,11 +302,8 @@ namespace BookingWebApplication.Controllers
         // GET: ContentAdmins/CreateMovie
         public async Task<IActionResult> CreateMovie()
         {
-            if (HttpContext.Session.GetString("UserRole") == null)
-                return RedirectToAction("Index", "ContentAdmins");
-
-            if (!HttpContext.Session.GetString("UserRole").Equals("ContentAdmin"))
-                return RedirectToAction("Index", "ContentAdmins");
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("ContentAdmin"))
+                return RedirectToAction("Index", "Home");
 
             return View();
         }
@@ -306,10 +323,14 @@ namespace BookingWebApplication.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Movie");
 
-           /* if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
 
             }
+
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+
+            System.Diagnostics.Debug.WriteLine(errors + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
             ViewBag.Error = "Could not add movie. Something went wrong.";
             return View(movie);*/

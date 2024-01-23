@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingWebApplication.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240123105132_AddModelsTodb")]
+    [Migration("20240123133616_AddModelsTodb")]
     partial class AddModelsTodb
     {
         /// <inheritdoc />
@@ -50,6 +50,14 @@ namespace BookingWebApplication.Migrations
                         .IsUnique();
 
                     b.ToTable("admins");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "admin",
+                            UserName = "admin"
+                        });
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.Cinema", b =>
@@ -334,6 +342,17 @@ namespace BookingWebApplication.Migrations
                     b.HasKey("UserName");
 
                     b.ToTable("users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserName = "admin",
+                            CreateTime = new DateTime(2024, 1, 23, 15, 36, 15, 969, DateTimeKind.Local).AddTicks(8970),
+                            Email = "admin@admin.com",
+                            Password = "123456",
+                            Role = "Admin",
+                            Salt = "123"
+                        });
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.Admin", b =>
@@ -418,7 +437,7 @@ namespace BookingWebApplication.Migrations
                     b.HasOne("BookingWebApplication.Models.Provoli", "Provoli")
                         .WithMany("Reservations")
                         .HasForeignKey("ProvolesMoviesId", "ProvolesMoviesName", "ProvolesId", "ProvolesCinemasId", "ProvolesContentAdminId")
-                        .OnDelete(DeleteBehavior.ClientNoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Customer");

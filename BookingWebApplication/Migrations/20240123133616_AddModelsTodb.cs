@@ -189,7 +189,8 @@ namespace BookingWebApplication.Migrations
                         name: "FK_reservations_provoles_PROVOLES_MOVIES_ID_PROVOLES_MOVIES_NAME_PROVOLES_ID_PROVOLES_CINEMAS_ID_ProvolesContentAdminId",
                         columns: x => new { x.PROVOLES_MOVIES_ID, x.PROVOLES_MOVIES_NAME, x.PROVOLES_ID, x.PROVOLES_CINEMAS_ID, x.ProvolesContentAdminId },
                         principalTable: "provoles",
-                        principalColumns: new[] { "MOVIES_ID", "MOVIES_NAME", "ID", "CinemasID", "CONTENT_ADMIN_ID" });
+                        principalColumns: new[] { "MOVIES_ID", "MOVIES_NAME", "ID", "CinemasID", "CONTENT_ADMIN_ID" },
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -201,6 +202,16 @@ namespace BookingWebApplication.Migrations
                     { 1, "No", "Options Cinemas Glyfada", 200 },
                     { 2, "No", "Άστορ", 150 }
                 });
+
+            migrationBuilder.InsertData(
+                table: "users",
+                columns: new[] { "user_name", "create_time", "email", "password", "role", "salt" },
+                values: new object[] { "admin", new DateTime(2024, 1, 23, 15, 36, 15, 969, DateTimeKind.Local).AddTicks(8970), "admin@admin.com", "123456", "Admin", "123" });
+
+            migrationBuilder.InsertData(
+                table: "admins",
+                columns: new[] { "id", "name", "UserName" },
+                values: new object[] { 1, "admin", "admin" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_admins_UserName",
