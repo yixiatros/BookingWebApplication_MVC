@@ -70,9 +70,10 @@ namespace BookingWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserName,Email,Password,Salt,Role")] User user)
+        public async Task<IActionResult> Create([Bind("UserName,Email,Password,Role")] User user)
         {
             user.CreateTime = DateTime.Now;
+            user.Salt = RandomString(3);
             if (ModelState.IsValid)
             {
                 _context.Add(user);
@@ -101,6 +102,7 @@ namespace BookingWebApplication.Controllers
 
                 HttpContext.Session.SetString("UserSession", user.Email);
                 HttpContext.Session.SetString("UserName", user.UserName);
+                HttpContext.Session.SetString("UserRole", "Customer");
                 return RedirectToAction("Index", "Home");
             }
             return View(user);

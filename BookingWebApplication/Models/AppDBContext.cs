@@ -46,27 +46,26 @@ public partial class AppDBContext : DbContext
 
         modelBuilder.Entity<Admin>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).IsFixedLength();
         });
 
         modelBuilder.Entity<ContentAdmin>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).IsFixedLength();
         });
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.Name).IsFixedLength();
         });
 
         modelBuilder.Entity<Movie>(entity =>
         {
             entity.HasKey(e => new { e.MovieId, e.MovieName });
-
-            entity.Property(e => e.MovieId).ValueGeneratedNever();
+            entity.Property(e => e.MovieId).ValueGeneratedOnAdd();
             entity.Property(e => e.MovieName).IsFixedLength();
             entity.Property(e => e.MovieContent).IsFixedLength();
             entity.Property(e => e.MovieType).IsFixedLength();
@@ -85,6 +84,7 @@ public partial class AppDBContext : DbContext
 
         modelBuilder.Entity<Provoli>(entity =>
         {
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
             entity.Property(e => e.ShowDateTime).HasPrecision(0);
 
             entity.HasOne(e => e.ContentAdmin).WithMany(e => e.Provoles);
@@ -108,7 +108,7 @@ public partial class AppDBContext : DbContext
             .WithMany(e => e.Reservations)
             .HasForeignKey(e => new {e.ProvolesMoviesId, e.ProvolesMoviesName, e.ProvolesId, e.ProvolesCinemasId, e.ProvolesContentAdminId})
             .IsRequired()
-            .OnDelete(DeleteBehavior.ClientNoAction);
+            .OnDelete(DeleteBehavior.Restrict);
 
             entity.HasOne(e => e.Customer).WithMany(e => e.Reservations).HasForeignKey(e => e.CustomersId);
 
@@ -117,28 +117,30 @@ public partial class AppDBContext : DbContext
 
 
         // TODO Testing Data DELETE AFTER TESTING
-        modelBuilder.Entity<User>().HasData(
+        /*modelBuilder.Entity<User>().HasData(
             new User { UserName = "al", Email = "al@testmail.com", Password = "123456", CreateTime = DateTime.Now, Role = "ContentAdmin", Salt = "123" }
             //,new User { UserName = "kon", Email = "kon@testmail.com", Password = "123456", CreateTime = DateTime.Now, Role = "Customer", Salt = "123" }
             );
         modelBuilder.Entity<ContentAdmin>().HasData(
             new ContentAdmin { Id = 0, Name = "alex", UserName = "al" }
             );
-        /*modelBuilder.Entity<Customer>().HasData(
+        modelBuilder.Entity<Customer>().HasData(
             new Customer { Id = 0, Name = "konstantinos", UserName = "kon" }
-            );*/
+            );
         modelBuilder.Entity<Movie>().HasData(
-            new Movie {
+            new Movie
+            {
                 MovieId = 0,
                 MovieName = "The Shawshank Redemption",
                 MovieContent = "Content",
-                MovieDirector= "Frank Darabont",
+                MovieDirector = "Frank Darabont",
                 MovieSummary = "Over the course of several years, two convicts form a friendship, seeking consolation and, eventually, redemption through basic compassion.",
                 MovieLength = 142,
                 MovieType = "Drama",
                 ContentAdminId = 0
             },
-            new Movie {
+            new Movie
+            {
                 MovieId = 1,
                 MovieName = "The Godfather",
                 MovieContent = "Content",
@@ -159,7 +161,7 @@ public partial class AppDBContext : DbContext
                 MovieType = "Action, Crime, Drama",
                 ContentAdminId = 0
             }
-            );
+            );*/
 
         modelBuilder.Entity<Cinema>().HasData(
             new Cinema { Id = 0, Name = "Village Cinemas Thessaloniki", Seats = 300, I3D = "Yes" },
@@ -167,13 +169,13 @@ public partial class AppDBContext : DbContext
             new Cinema { Id = 2, Name = "Άστορ", Seats = 150, I3D = "No" }
             );
 
-        Provoli provoli;
+        /*Provoli provoli;
         modelBuilder.Entity<Provoli>().HasData(
             provoli = new Provoli { MoviesId = 0, MoviesName = "The Shawshank Redemption", CinemasID = 0, Id = 0, ContentAdminId = 0, ShowDateTime = DateTime.Now.AddDays(5) },
             new Provoli { MoviesId = 0, MoviesName = "The Shawshank Redemption", CinemasID = 0, Id = 1, ContentAdminId = 0, ShowDateTime = DateTime.Now.AddDays(6).AddHours(7) },
             new Provoli { MoviesId = 0, MoviesName = "The Shawshank Redemption", CinemasID = 1, Id = 2, ContentAdminId = 0, ShowDateTime = DateTime.Now.AddDays(4).AddHours(7) },
             new Provoli { MoviesId = 1, MoviesName = "The Godfather", CinemasID = 2, Id = 3, ContentAdminId = 0, ShowDateTime = DateTime.Now.AddDays(5).AddHours(7) }
-            );
+            );*/
 
         /*modelBuilder.Entity<Reservation>().HasData(
             new Reservation {

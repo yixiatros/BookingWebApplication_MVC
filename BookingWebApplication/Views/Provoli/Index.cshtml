@@ -14,34 +14,38 @@
             <th>Movie Name</th>
             <th>Date & Time</th>
             <th>Available Seats</th>
-            <th>Actions</th> <!-- Added column for Actions -->
         </tr>
         @foreach (var item in Model.Item1.OrderBy(e => e.ShowDateTime))
         {
             <tr class="provoles-table-row" id="@item.ShowDateTime" onclick="onDateTimeSelected('@item.ShowDateTime')">
                 <td>
-                    <a asp-controller="Reservation" asp-action="Create"
-                       asp-route-cinemasId="@Model.Item2.Id"
-                       asp-route-moviesId="@item.MoviesId"
-                       asp-route-contentAdminsId="@item.ContentAdminId"
-                       asp-route-provolesId="@item.Id">
-                        &nbsp;
-                    </a>
+                    @{
+                        if (ViewBag.UserRole.Equals("ContentAdmin"))
+                        {
+                            <a asp-controller="ContentAdmins" asp-action="EditProvoli"
+                            asp-route-moviesId="@item.MoviesId"
+                            asp-route-moviesName='@item.MoviesName'
+                            asp-route-cinemasId="@item.CinemasID"
+                            asp-route-showDateTime="@item.ShowDateTime"
+                            asp-route-contentAdminId="@item.ContentAdminId">
+                                &nbsp;
+                            </a>
+                        }
+                        else if (ViewBag.UserRole.Equals("Customer"))
+                        {
+                            <a asp-controller="Reservation" asp-action="Create"
+                               asp-route-cinemasId="@Model.Item2.Id"
+                               asp-route-moviesId="@item.MoviesId"
+                               asp-route-contentAdminsId="@item.ContentAdminId"
+                               asp-route-provolesId="@item.Id">
+                                &nbsp;
+                            </a>
+                        }
+                    }
                 </td>
                 <td>@item.MoviesName</td>
                 <td>@item.ShowDateTime</td>
                 <td>@item.Cinema.Seats</td>
-                <td>
-                    <a asp-controller="ContentAdmins" asp-action="EditProvoli"
-                       asp-route-moviesId="@item.MoviesId"
-                       asp-route-moviesName='@item.MoviesName'
-                       asp-route-cinemasId="@item.CinemasID"
-                       asp-route-showDateTime="@item.ShowDateTime"
-                       asp-route-contentAdminId="@item.ContentAdminId"
-                       style="color: white; margin-left: 10px; margin-top: 10px;font-size: 20px;">
-                        Edit
-                    </a>
-                </td>
             </tr>
         }
     </table>

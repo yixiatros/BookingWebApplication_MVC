@@ -30,10 +30,6 @@ namespace BookingWebApplication.Models
         [ForeignKey("ProvolesContentAdminId")]
         public int ProvolesContentAdminId { get; set; }
 
-        [Column("PROVOLES_Date_Time")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime ProvolesDateTime { get; set; }
         [InverseProperty("Reservations")]
         public virtual Provoli? Provoli { get; set; } = null!;
 

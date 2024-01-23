@@ -52,13 +52,13 @@
     <br>
 
     <form class="reserve-form" id="reserve-form" asp-action="Create">
+        <input value="@Model.Item1.Id" id="ProvolesId" name="ProvolesId" type="text" hidden readonly />
+
         <input value="@Model.Item2.MovieId" id="ProvolesMoviesId" name="ProvolesMoviesId" type="text" hidden readonly />
 
         <input value="@Model.Item2.MovieName" id="ProvolesMoviesName" name="ProvolesMoviesName" type="text" hidden readonly />
 
         <input value="@Model.Item3.Id" id="ProvolesCinemasId" name="ProvolesCinemasId" type="text" hidden readonly />
-
-        <input value="@Model.Item1.ShowDateTime" id="ProvolesDateTime" name="ProvolesDateTime" type="text" hidden readonly />
 
         <input value="@Model.Item1.ContentAdminId" id="ProvolesContentAdminId" name="ProvolesContentAdminId" type="text" hidden readonly />
 

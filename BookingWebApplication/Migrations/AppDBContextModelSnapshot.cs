@@ -25,8 +25,11 @@ namespace BookingWebApplication.Migrations
             modelBuilder.Entity("BookingWebApplication.Models.Admin", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .HasMaxLength(45)
@@ -102,8 +105,11 @@ namespace BookingWebApplication.Migrations
             modelBuilder.Entity("BookingWebApplication.Models.ContentAdmin", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .HasMaxLength(45)
@@ -121,21 +127,16 @@ namespace BookingWebApplication.Migrations
                         .IsUnique();
 
                     b.ToTable("content_admins");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 0,
-                            Name = "alex",
-                            UserName = "al"
-                        });
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .HasMaxLength(45)
@@ -158,8 +159,11 @@ namespace BookingWebApplication.Migrations
             modelBuilder.Entity("BookingWebApplication.Models.Movie", b =>
                 {
                     b.Property<int>("MovieId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("movie_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovieId"));
 
                     b.Property<string>("MovieName")
                         .HasMaxLength(45)
@@ -201,41 +205,6 @@ namespace BookingWebApplication.Migrations
                     b.HasIndex("ContentAdminId");
 
                     b.ToTable("movies");
-
-                    b.HasData(
-                        new
-                        {
-                            MovieId = 0,
-                            MovieName = "The Shawshank Redemption",
-                            ContentAdminId = 0,
-                            MovieContent = "Content",
-                            MovieDirector = "Frank Darabont",
-                            MovieLength = 142,
-                            MovieSummary = "Over the course of several years, two convicts form a friendship, seeking consolation and, eventually, redemption through basic compassion.",
-                            MovieType = "Drama"
-                        },
-                        new
-                        {
-                            MovieId = 1,
-                            MovieName = "The Godfather",
-                            ContentAdminId = 0,
-                            MovieContent = "Content",
-                            MovieDirector = "Francis Ford Coppola",
-                            MovieLength = 175,
-                            MovieSummary = "Don Vito Corleone, head of a mafia family, decides to hand over his empire to his youngest son Michael. However, his decision unintentionally puts the lives of his loved ones in grave danger.",
-                            MovieType = "Crime, Drama"
-                        },
-                        new
-                        {
-                            MovieId = 2,
-                            MovieName = "The Dark Knight",
-                            ContentAdminId = 0,
-                            MovieContent = "Content",
-                            MovieDirector = "Christopher Nolan",
-                            MovieLength = 152,
-                            MovieSummary = "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-                            MovieType = "Action, Crime, Drama"
-                        });
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.Provoli", b =>
@@ -250,8 +219,11 @@ namespace BookingWebApplication.Migrations
                         .HasColumnName("MOVIES_NAME");
 
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CinemasID")
                         .HasColumnType("int");
@@ -272,44 +244,6 @@ namespace BookingWebApplication.Migrations
                     b.HasIndex("ContentAdminId");
 
                     b.ToTable("provoles");
-
-                    b.HasData(
-                        new
-                        {
-                            MoviesId = 0,
-                            MoviesName = "The Shawshank Redemption",
-                            Id = 0,
-                            CinemasID = 0,
-                            ContentAdminId = 0,
-                            ShowDateTime = new DateTime(2024, 1, 28, 11, 11, 21, 997, DateTimeKind.Local).AddTicks(5605)
-                        },
-                        new
-                        {
-                            MoviesId = 0,
-                            MoviesName = "The Shawshank Redemption",
-                            Id = 1,
-                            CinemasID = 0,
-                            ContentAdminId = 0,
-                            ShowDateTime = new DateTime(2024, 1, 29, 18, 11, 21, 997, DateTimeKind.Local).AddTicks(5613)
-                        },
-                        new
-                        {
-                            MoviesId = 0,
-                            MoviesName = "The Shawshank Redemption",
-                            Id = 2,
-                            CinemasID = 1,
-                            ContentAdminId = 0,
-                            ShowDateTime = new DateTime(2024, 1, 27, 18, 11, 21, 997, DateTimeKind.Local).AddTicks(5616)
-                        },
-                        new
-                        {
-                            MoviesId = 1,
-                            MoviesName = "The Godfather",
-                            Id = 3,
-                            CinemasID = 2,
-                            ContentAdminId = 0,
-                            ShowDateTime = new DateTime(2024, 1, 28, 18, 11, 21, 997, DateTimeKind.Local).AddTicks(5619)
-                        });
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.Reservation", b =>
@@ -341,10 +275,6 @@ namespace BookingWebApplication.Migrations
 
                     b.Property<int>("ProvolesContentAdminId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("ProvolesDateTime")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("PROVOLES_Date_Time");
 
                     b.Property<string>("Seats")
                         .IsRequired()
@@ -401,17 +331,6 @@ namespace BookingWebApplication.Migrations
                     b.HasKey("UserName");
 
                     b.ToTable("users");
-
-                    b.HasData(
-                        new
-                        {
-                            UserName = "al",
-                            CreateTime = new DateTime(2024, 1, 23, 11, 11, 21, 997, DateTimeKind.Local).AddTicks(5281),
-                            Email = "al@testmail.com",
-                            Password = "123456",
-                            Role = "ContentAdmin",
-                            Salt = "123"
-                        });
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.Admin", b =>
