@@ -1,0 +1,40 @@
+﻿@model BookingWebApplication.Models.Cinema
+
+@{
+    ViewData["Title"] = "Add Cinema";
+}
+
+<h2>Add Cinema</h2>
+
+<form asp-action="AddCinema" asp-controller="ContentAdmin" method="post">
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="Name" class="form-label mt-4">Name</label>
+        <input asp-for="Name" class="form-control"/>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Seats" class="form-label mt-4">Seats</label>
+        <input asp-for="Seats" class="form-control" />
+        <span asp-validation-for="Seats" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="I3D" class="form-label mt-4">3D</label>
+        <input asp-for="I3D" class="form-control" />
+        <span asp-validation-for="I3D" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Add" class="btn btn-secondary mt-4" />
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

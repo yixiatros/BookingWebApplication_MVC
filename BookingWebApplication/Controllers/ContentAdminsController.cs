@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BookingWebApplication.Models;
 using Mono.TextTemplating;
 using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookingWebApplication.Controllers
 {
@@ -334,6 +335,27 @@ namespace BookingWebApplication.Controllers
 
             ViewBag.Error = "Could not add movie. Something went wrong.";
             return View(movie);*/
+        }
+
+        public IActionResult AddCinema()
+        {
+            if (HttpContext.Session.GetString("UserSession") == null || !HttpContext.Session.GetString("UserRole").Equals("ContentAdmin"))
+                return RedirectToAction("Index", "Home");
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddCinema(Cinema cinema)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Cinemas.Add(cinema);
+                _context.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(cinema);
         }
     }
 }
