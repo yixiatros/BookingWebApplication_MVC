@@ -323,18 +323,6 @@ namespace BookingWebApplication.Controllers
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Movie");
-
-            /*if (ModelState.IsValid)
-            {
-
-            }
-
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
-
-            System.Diagnostics.Debug.WriteLine(errors + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-
-            ViewBag.Error = "Could not add movie. Something went wrong.";
-            return View(movie);*/
         }
 
         public IActionResult AddCinema()

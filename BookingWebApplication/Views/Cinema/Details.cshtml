@@ -24,23 +24,26 @@
     </tr>
     @{
         List<int> movies = new List<int>();
-    }
 
-    @foreach(var item in Model.Item1.Provoles)
-    {
-        if (!movies.Contains(item.MoviesId))
+        if (Model.Item1.Provoles != null)
         {
-            <tr>
-                <td>
-                    <a asp-controller="Provoli" asp-action="Index"
-                    asp-route-cinemasId="@Model.Item1.Id"
-                    asp-route-moviesId="@item.MoviesId"
-                    asp-route-id="@item.Movie.ContentAdminId">
-                        @item.MoviesName
-                    </a>
-                </td>
-            </tr>
-            movies.Add(item.MoviesId);
+            foreach (var item in Model.Item1.Provoles)
+            {
+                if (!movies.Contains(item.MoviesId))
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Provoli" asp-action="Index"
+                               asp-route-cinemasId="@Model.Item1.Id"
+                               asp-route-moviesId="@item.MoviesId"
+                               asp-route-id="@item.Movie.ContentAdminId">
+                                @item.MoviesName
+                            </a>
+                        </td>
+                    </tr>
+                    movies.Add(item.MoviesId);
+                }
+            }
         }
     }
 </table>

@@ -9,7 +9,7 @@
 
 <div class="centered">
     <section class="cards">
-        @foreach (var item in Model@* .OrderBy(e => e.MovieName) *@)
+        @foreach (var item in Model.OrderBy(e => e.MovieName))
         {
             <a asp-action="Details" asp-route-id="@item.MovieId">
                 <div class="card">

@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace BookingWebApplication.Migrations
 {
     /// <inheritdoc />
@@ -194,19 +192,9 @@ namespace BookingWebApplication.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "cinemas",
-                columns: new[] { "id", "3D", "name", "seats" },
-                values: new object[,]
-                {
-                    { 0, "Yes", "Village Cinemas Thessaloniki", 300 },
-                    { 1, "No", "Options Cinemas Glyfada", 200 },
-                    { 2, "No", "Άστορ", 150 }
-                });
-
-            migrationBuilder.InsertData(
                 table: "users",
                 columns: new[] { "user_name", "create_time", "email", "password", "role", "salt" },
-                values: new object[] { "admin", new DateTime(2024, 1, 23, 15, 36, 15, 969, DateTimeKind.Local).AddTicks(8970), "admin@admin.com", "123456", "Admin", "123" });
+                values: new object[] { "admin", new DateTime(2024, 1, 25, 8, 36, 34, 675, DateTimeKind.Local).AddTicks(1188), "admin@admin.com", "123456", "Admin", "123" });
 
             migrationBuilder.InsertData(
                 table: "admins",

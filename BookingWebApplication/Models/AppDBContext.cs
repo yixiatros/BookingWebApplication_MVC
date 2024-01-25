@@ -122,14 +122,6 @@ public partial class AppDBContext : DbContext
             new Admin { Id = 1, Name = "admin", UserName = "admin" }
             );
 
-        // TODO Testing Data DELETE AFTER TESTING
-        modelBuilder.Entity<Cinema>().HasData(
-            new Cinema { Id = 0, Name = "Village Cinemas Thessaloniki", Seats = 300, I3D = "Yes" },
-            new Cinema { Id = 1, Name = "Options Cinemas Glyfada", Seats = 200, I3D = "No" },
-            new Cinema { Id = 2, Name = "Άστορ", Seats = 150, I3D = "No" }
-            );
-        // TODO Testing Data DELETE AFTER TESTING
-
         OnModelCreatingPartial(modelBuilder);
     }
 

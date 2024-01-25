@@ -85,29 +85,6 @@ namespace BookingWebApplication.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("cinemas");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 0,
-                            I3D = "Yes",
-                            Name = "Village Cinemas Thessaloniki",
-                            Seats = 300
-                        },
-                        new
-                        {
-                            Id = 1,
-                            I3D = "No",
-                            Name = "Options Cinemas Glyfada",
-                            Seats = 200
-                        },
-                        new
-                        {
-                            Id = 2,
-                            I3D = "No",
-                            Name = "Άστορ",
-                            Seats = 150
-                        });
                 });
 
             modelBuilder.Entity("BookingWebApplication.Models.ContentAdmin", b =>
@@ -344,7 +321,7 @@ namespace BookingWebApplication.Migrations
                         new
                         {
                             UserName = "admin",
-                            CreateTime = new DateTime(2024, 1, 23, 15, 36, 15, 969, DateTimeKind.Local).AddTicks(8970),
+                            CreateTime = new DateTime(2024, 1, 25, 8, 36, 34, 675, DateTimeKind.Local).AddTicks(1188),
                             Email = "admin@admin.com",
                             Password = "123456",
                             Role = "Admin",
